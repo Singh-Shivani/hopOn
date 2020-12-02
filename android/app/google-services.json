@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1542780503",
+    "firebase_url": "https://hopon-3d89e.firebaseio.com",
+    "project_id": "hopon-3d89e",
+    "storage_bucket": "hopon-3d89e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1542780503:android:a81069671157372af01512",
+        "android_client_info": {
+          "package_name": "com.example.vehicle_sharing_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1542780503-uac9njtqlutjdgls9r6c8drrkr95savg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz7nKuP8ZmCpDOz3GhQImiUVvCkHAswoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1542780503-uac9njtqlutjdgls9r6c8drrkr95savg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

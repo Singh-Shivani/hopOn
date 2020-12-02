@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
           Text("\nDon't have any account?"),
           GestureDetector(
             onTap: () {
-              print('signup');
+              print('Signup');
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {

@@ -24,31 +24,33 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-class InputTextField extends StatelessWidget {
 
-  final String label;
-  final Icon icon;
-  InputTextField({ @required this.label,@required this.icon});
+class InputFormField extends StatelessWidget {
+  const InputFormField({
+    Key key,
+    @required this.fieldName,
+    @required this.obscure,
+    @required this.validator,
+    @required this.controller,
+  }) : super(key: key);
+
+  final String fieldName;
+  final bool obscure;
+  final Function validator;
+  final TextEditingController controller;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: TextFormField(
-        decoration: InputDecoration(
-            icon: icon,
-
-            labelText: label,
-        ),
-        onSaved: (String value) {
-          // This optional block of code can be used to run
-          // code when the user saves the form.
-        },
-        validator: (String value) {
-          return value.length < 4 ? 'Enter a valid Email-Id' : null;
-        },
-
+    return TextFormField(
+      controller: controller,
+      validator: (value) {
+        //TODO: call validator function
+        return validator(value);
+      },
+      decoration: InputDecoration(
+        hintText: fieldName,
       ),
+      obscureText: obscure,
     );
   }
 }
-

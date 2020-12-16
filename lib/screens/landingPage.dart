@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vehicle_sharing_app/screens/loginPage.dart';
-
+import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-
 
 class LandingPage extends StatefulWidget {
   @override
@@ -10,17 +10,15 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-
   @override
   void initState() {
-    // AuthNotifier authNotifier =
-    // Provider.of<AuthNotifier>(context, listen: false);
-    // initializeCurrentUser(authNotifier, context);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    // AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
+    final firebaseUser = context.watch<User>();
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -62,16 +60,27 @@ class _LandingPageState extends State<LandingPage> {
             height: 20,
           ),
           GestureDetector(
-            onTap:(){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  // return (authNotifier.user == null)
-                  //     ? LoginPage()
-                  //     :HomePage();
-                  return LoginPage();
-                }),
-              );
+            onTap: () {
+              if (firebaseUser != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      //TODO: add home page here
+                      return;
+                    },
+                  ),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LoginPage();
+                    },
+                  ),
+                );
+              }
             },
             child: CustomButton(
               text: 'Go',
@@ -82,4 +91,3 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 }
-

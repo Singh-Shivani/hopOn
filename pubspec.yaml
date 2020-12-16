@@ -25,11 +25,12 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.0
-  provider: ^4.3.2+2
-  firebase_auth: ^0.18.3+1
-  cloud_firestore: ^0.14.3+1
-  firebase_core: ^0.5.2+1
-  firebase_storage: ^5.1.0
+  provider: ^4.3.2+3
+  firebase_auth: ^0.18.4+1
+  cloud_firestore: ^0.14.4
+  firebase_core: ^0.5.3
+  firebase_storage: ^5.2.0
+  curved_navigation_bar: ^0.3.4
 
 dev_dependencies:
   flutter_test:

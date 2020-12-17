@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/homePage.dart';
-import 'package:vehicle_sharing_app/screens/imageSelectAndCrop.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/validation_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
@@ -34,7 +32,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
     user.licenseNumber = _licenseController.text;
     user.bloodGroup = _bloodController.text;
     user.contact = _contactController.text;
-    user.dpURL = _imageUrl;
+    // user.dpURL = _imageUrl;
     user.emailID = FirebaseAuth.instance.currentUser.email;
     user.hasCompleteProfile = true;
   }
@@ -54,52 +52,52 @@ class _CompleteProfileState extends State<CompleteProfile> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        String image = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ImageSelectAndCrop();
-                            },
-                          ),
-                        ) as String;
-
-                        setState(() {
-                          _imageUrl = image;
-                        });
-                      },
-                      child: Container(
-                        width: 0.4 * deviceSize.width,
-                        height: 0.4 * deviceSize.width,
-                        child: Center(
-                          child: (_imageUrl != null)
-                              ? CachedNetworkImage(
-                                  imageUrl: _imageUrl,
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                    radius: 0.2 * deviceSize.width,
-                                  ),
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                  errorWidget: (context, url, error) => Icon(
-                                    Icons.error,
-                                    size: 40.0,
-                                  ),
-                                )
-                              : CircleAvatar(
-                                  radius: 0.2 * deviceSize.width,
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 40.0,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     String image = await Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //         builder: (context) {
+                    //           return ImageSelectAndCrop();
+                    //         },
+                    //       ),
+                    //     ) as String;
+                    //
+                    //     setState(() {
+                    //       _imageUrl = image;
+                    //     });
+                    //   },
+                    //   child: Container(
+                    //     width: 0.4 * deviceSize.width,
+                    //     height: 0.4 * deviceSize.width,
+                    //     child: Center(
+                    //       child: (_imageUrl != null)
+                    //           ? CachedNetworkImage(
+                    //               imageUrl: _imageUrl,
+                    //               imageBuilder: (context, imageProvider) =>
+                    //                   CircleAvatar(
+                    //                 backgroundImage: imageProvider,
+                    //                 radius: 0.2 * deviceSize.width,
+                    //               ),
+                    //               progressIndicatorBuilder:
+                    //                   (context, url, downloadProgress) =>
+                    //                       CircularProgressIndicator(
+                    //                           value: downloadProgress.progress),
+                    //               errorWidget: (context, url, error) => Icon(
+                    //                 Icons.error,
+                    //                 size: 40.0,
+                    //               ),
+                    //             )
+                    //           : CircleAvatar(
+                    //               radius: 0.2 * deviceSize.width,
+                    //               child: Icon(
+                    //                 Icons.person,
+                    //                 size: 40.0,
+                    //               ),
+                    //             ),
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 0.03 * deviceSize.height,
                     ),
@@ -150,36 +148,54 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (_formKey.currentState.validate() &&
-                            _imageUrl != null) {
-                          ///Tell the user that process has started
+                        // if (_formKey.currentState.validate() &&
+                        //     _imageUrl != null) {
+                        //   ///Tell the user that process has started
+                        //   Scaffold.of(context).showSnackBar(
+                        //       SnackBar(content: Text('Processing')));
+                        //
+                        //   ///Testing url
+                        //   print(_imageUrl);
+                        //
+                        //   ///Initialize User after successful validation of fields
+                        //   initAppUser();
+                        //
+                        //   ///Make the call to upload user data
+                        //   String isComplete = await firebaseFunctions
+                        //       .uploadUserData(user.toMap());
+                        //
+                        //   ///Check if it was uploaded successfully or else show the error
+                        //   if (isComplete == 'true') {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) {
+                        //           return HomePage();
+                        //         },
+                        //       ),
+                        //     );
+                        //   } else {
+                        //     Scaffold.of(context).showSnackBar(
+                        //         SnackBar(content: Text(isComplete)));
+                        //   }
+                        // }
+                        Scaffold.of(context).showSnackBar(
+                            SnackBar(content: Text('Processing')));
+                        initAppUser();
+                        String isComplete = await firebaseFunctions
+                            .uploadUserData(user.toMap());
+                        if (isComplete == 'true') {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return HomePage();
+                              },
+                            ),
+                          );
+                        } else {
                           Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing')));
-
-                          ///Testing url
-                          print(_imageUrl);
-
-                          ///Initialize User after successful validation of fields
-                          initAppUser();
-
-                          ///Make the call to upload user data
-                          String isComplete = await firebaseFunctions
-                              .uploadUserData(user.toMap());
-
-                          ///Check if it was uploaded successfully or else show the error
-                          if (isComplete == 'true') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return HomePage();
-                                },
-                              ),
-                            );
-                          } else {
-                            Scaffold.of(context).showSnackBar(
-                                SnackBar(content: Text(isComplete)));
-                          }
+                              SnackBar(content: Text(isComplete)));
                         }
                       },
                       child: CustomButton(

@@ -5,7 +5,7 @@ class AppUser {
   String contact;
   String age;
   String emailID;
-  String dpURL;
+  // String dpURL;
   bool hasCompleteProfile = false;
 
   AppUser();
@@ -18,7 +18,7 @@ class AppUser {
       'contact': contact,
       'age': age,
       'emailID': emailID,
-      'dpURL': dpURL,
+      // 'dpURL': dpURL,
       'hasCompletedProfile': hasCompleteProfile,
     };
   }
@@ -30,7 +30,7 @@ class AppUser {
     contact = data['contact'];
     age = data['age'];
     emailID = data['emailID'];
-    dpURL = data['dpURL'];
+    // dpURL = data['dpURL'];
     hasCompleteProfile = data['hasCompleteProfile'];
   }
 }

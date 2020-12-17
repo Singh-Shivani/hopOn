@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         title: 'Vehicle Sharing Platform',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          fontFamily: 'Poppins',
+          fontFamily: 'poppins',
           primaryColor: Color.fromRGBO(0, 0, 0, 1),
         ),
         home: LandingPage(),

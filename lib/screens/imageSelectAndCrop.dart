@@ -78,7 +78,7 @@ class _ImageSelectAndCropState extends State<ImageSelectAndCrop> {
                 child: IconButton(
                   icon: Icon(
                     Icons.photo_camera,
-                    size: 40,
+                    size: 30,
                   ),
                   onPressed: () => _pickImage(ImageSource.camera),
                 ),
@@ -87,7 +87,7 @@ class _ImageSelectAndCropState extends State<ImageSelectAndCrop> {
                 child: IconButton(
                   icon: Icon(
                     Icons.photo_library,
-                    size: 40,
+                    size: 30,
                   ),
                   onPressed: () => _pickImage(ImageSource.gallery),
                 ),

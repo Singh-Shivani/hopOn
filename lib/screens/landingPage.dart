@@ -14,7 +14,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   FirebaseFunctions firebaseFunctions = FirebaseFunctions();
-  bool profileComplete;
+  bool profileComplete = false;
 
   @override
   void initState() {
@@ -68,7 +68,8 @@ class _LandingPageState extends State<LandingPage> {
                 ],
               ),
               SizedBox(width: 30),
-              Image.asset('images/1299989.png', width: 180),
+              Image.asset('images/1299989.png',
+                  width: 0.42 * MediaQuery.of(context).size.width),
             ],
           ),
           SizedBox(

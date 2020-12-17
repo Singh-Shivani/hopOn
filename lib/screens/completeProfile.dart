@@ -1,7 +1,10 @@
-import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:vehicle_sharing_app/models/user.dart';
+import 'package:vehicle_sharing_app/screens/homePage.dart';
+import 'package:vehicle_sharing_app/screens/imageSelectAndCrop.dart';
+import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/validation_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
@@ -13,85 +16,182 @@ class CompleteProfile extends StatefulWidget {
 class _CompleteProfileState extends State<CompleteProfile> {
   final _formKey = GlobalKey<FormState>();
 
+  TextEditingController _nameController = TextEditingController();
   TextEditingController _licenseController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
   TextEditingController _bloodController = TextEditingController();
   TextEditingController _contactController = TextEditingController();
 
-  File _image;
+  String _imageUrl;
 
-  final picker = ImagePicker();
+  AppUser user = AppUser();
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  FirebaseFunctions firebaseFunctions = FirebaseFunctions();
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
-      }
-    });
+  void initAppUser() {
+    user.name = _nameController.text;
+    user.age = _ageController.text;
+    user.licenseNumber = _licenseController.text;
+    user.bloodGroup = _bloodController.text;
+    user.contact = _contactController.text;
+    user.dpURL = _imageUrl;
+    user.emailID = FirebaseAuth.instance.currentUser.email;
+    user.hasCompleteProfile = true;
   }
 
   @override
   Widget build(BuildContext context) {
+    Size deviceSize = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () => getImage(),
-              child: CircleAvatar(
-                radius: 0.1 * MediaQuery.of(context).size.width,
-                child: Center(
-                  child: (_image != null)
-                      ? Image.file(
-                          _image,
-                          fit: BoxFit.cover,
-                        )
-                      : Icon(Icons.camera),
+      body: Builder(
+        builder: (context) {
+          return Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        String image = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ImageSelectAndCrop();
+                            },
+                          ),
+                        ) as String;
+
+                        setState(() {
+                          _imageUrl = image;
+                        });
+                      },
+                      child: Container(
+                        width: 0.4 * deviceSize.width,
+                        height: 0.4 * deviceSize.width,
+                        child: Center(
+                          child: (_imageUrl != null)
+                              ? CachedNetworkImage(
+                                  imageUrl: _imageUrl,
+                                  imageBuilder: (context, imageProvider) =>
+                                      CircleAvatar(
+                                    backgroundImage: imageProvider,
+                                    radius: 0.2 * deviceSize.width,
+                                  ),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                  errorWidget: (context, url, error) => Icon(
+                                    Icons.error,
+                                    size: 40.0,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 0.2 * deviceSize.width,
+                                  child: Icon(
+                                    Icons.person,
+                                    size: 40.0,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 0.03 * deviceSize.height,
+                    ),
+                    InputFormField(
+                      fieldName: 'Name',
+                      obscure: false,
+                      validator: ValidationService().nameValidator,
+                      controller: _nameController,
+                    ),
+                    SizedBox(
+                      height: 0.03 * deviceSize.height,
+                    ),
+                    InputFormField(
+                      fieldName: 'Age',
+                      obscure: false,
+                      validator: ValidationService().ageValidator,
+                      controller: _ageController,
+                    ),
+                    SizedBox(
+                      height: 0.03 * deviceSize.height,
+                    ),
+                    InputFormField(
+                      fieldName: 'Blood Group',
+                      obscure: false,
+                      validator: ValidationService().bloodValidator,
+                      controller: _bloodController,
+                    ),
+                    SizedBox(
+                      height: 0.03 * deviceSize.height,
+                    ),
+                    InputFormField(
+                      fieldName: 'Contact Number',
+                      obscure: false,
+                      validator: ValidationService().contactValidator,
+                      controller: _contactController,
+                    ),
+                    SizedBox(
+                      height: 0.03 * deviceSize.height,
+                    ),
+                    InputFormField(
+                      fieldName: 'License Number',
+                      obscure: false,
+                      validator: ValidationService().licenseValidator,
+                      controller: _licenseController,
+                    ),
+                    SizedBox(
+                      height: 0.05 * deviceSize.height,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        if (_formKey.currentState.validate() &&
+                            _imageUrl != null) {
+                          ///Tell the user that process has started
+                          Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text('Processing')));
+
+                          ///Testing url
+                          print(_imageUrl);
+
+                          ///Initialize User after successful validation of fields
+                          initAppUser();
+
+                          ///Make the call to upload user data
+                          String isComplete = await firebaseFunctions
+                              .uploadUserData(user.toMap());
+
+                          ///Check if it was uploaded successfully or else show the error
+                          if (isComplete == 'true') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return HomePage();
+                                },
+                              ),
+                            );
+                          } else {
+                            Scaffold.of(context).showSnackBar(
+                                SnackBar(content: Text(isComplete)));
+                          }
+                        }
+                      },
+                      child: CustomButton(
+                        text: 'Save',
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            InputFormField(
-              fieldName: 'License Number',
-              obscure: false,
-              validator: ValidationService().licenseValidator,
-              controller: _licenseController,
-            ),
-            InputFormField(
-              fieldName: 'Age',
-              obscure: false,
-              validator: ValidationService().ageValidator,
-              controller: _ageController,
-            ),
-            InputFormField(
-              fieldName: 'Blood Group',
-              obscure: false,
-              validator: ValidationService().bloodValidator,
-              controller: _bloodController,
-            ),
-            InputFormField(
-              fieldName: 'Contact Number',
-              obscure: false,
-              validator: ValidationService().contactValidator,
-              controller: _contactController,
-            ),
-            GestureDetector(
-              onTap: () async {
-                if (_formKey.currentState.validate() && _image != null) {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing')));
-                }
-              },
-              child: CustomButton(
-                text: 'Save',
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
     );
   }

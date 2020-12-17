@@ -1,35 +1,29 @@
+String password;
+
 class ValidationService {
   String emailValidator(String value) {
-    if (value == null) {
+    if (value.isEmpty) {
       return 'Please enter a valid email';
     }
 
-    if (!value.contains('@') && !value.contains('.')) {
-      return 'Please enter a valid email';
-    }
-
-    // Pattern pattern = Pattern();
-
-    // if (value.startsWith(pattern)) {
-    //   return null;
-    // }
-
-    String pattern = r'^(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    String pattern = r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$';
     RegExp regExp = new RegExp(pattern);
 
-    if (!regExp.hasMatch(value[0])) {
+    if (!regExp.hasMatch(value)) {
+      // print('here');
       return 'Please enter a valid email';
     }
 
     return null;
   }
 
-  String passswordValidator(String value) {
+  String passwordValidator(String value) {
     if (value == null) {
       return 'Please enter a valid password';
     }
 
     if (value.length < 8) {
+      print('pass');
       return 'Please enter a password with more than 8 characters';
     }
 
@@ -41,19 +35,33 @@ class ValidationService {
       return 'Please enter a valid password';
     }
 
+    password = value;
     return null;
   }
 
-  String ageValidator(int value) {
-    if (value == null) {
+  String rePasswordValidator(String rePassword) {
+    if (password.compareTo(rePassword) != 0) {
+      print('here');
+      return "Your password doesn't match";
+    }
+
+    return null;
+  }
+
+  String ageValidator(String value) {
+    if (value == null || value.isEmpty) {
       return 'Please enter a valid age';
     }
 
-    if (value < 18) {
+    print('here');
+
+    int intValue = int.parse(value);
+
+    if (intValue < 18) {
       return 'Please enter a valid age';
     }
 
-    if (value > 100) {
+    if (intValue > 100) {
       return 'Please enter a valid age';
     }
 
@@ -61,7 +69,7 @@ class ValidationService {
   }
 
   String bloodValidator(String value) {
-    if (value == null) {
+    if (value == null || value.isEmpty) {
       return 'Please enter a valid blood group';
     }
 
@@ -76,7 +84,7 @@ class ValidationService {
   }
 
   String licenseValidator(String value) {
-    if (value == null) {
+    if (value == null || value.isEmpty) {
       return 'Please enter a valid License Number';
     }
 
@@ -92,7 +100,7 @@ class ValidationService {
   }
 
   String contactValidator(String value) {
-    if (value == null) {
+    if (value == null || value.isEmpty) {
       return 'Please enter a valid phone number';
     }
 
@@ -100,12 +108,26 @@ class ValidationService {
       return 'Please enter a valid phone number';
     }
 
-    String pattern =
-        r'^[0-9]*$';
+    String pattern = r'^[0-9]*$';
     RegExp regExp = new RegExp(pattern);
 
     if (!regExp.hasMatch(value)) {
       return 'Please enter a valid phone number';
+    }
+
+    return null;
+  }
+
+  String nameValidator(String value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter a valid name';
+    }
+
+    String pattern = r"^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$";
+    RegExp regExp = new RegExp(pattern);
+
+    if (!regExp.hasMatch(value)) {
+      return 'Please enter a valid name';
     }
 
     return null;

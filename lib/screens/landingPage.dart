@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vehicle_sharing_app/screens/loginPage.dart';
 import 'package:provider/provider.dart';
+import 'package:vehicle_sharing_app/screens/completeProfile.dart';
+import 'package:vehicle_sharing_app/screens/homePage.dart';
+import 'package:vehicle_sharing_app/screens/loginPage.dart';
+import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
 class LandingPage extends StatefulWidget {
@@ -10,9 +13,21 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
+  FirebaseFunctions firebaseFunctions = FirebaseFunctions();
+  bool profileComplete;
+
   @override
   void initState() {
+    profileComplete = false;
+    checkProfile();
     super.initState();
+  }
+
+  void checkProfile() async {
+    bool res = await firebaseFunctions.hasUserCompletedProfile();
+    setState(() {
+      profileComplete = res;
+    });
   }
 
   @override
@@ -62,15 +77,26 @@ class _LandingPageState extends State<LandingPage> {
           GestureDetector(
             onTap: () {
               if (firebaseUser != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      //TODO: add home page here
-                      return;
-                    },
-                  ),
-                );
+                print(profileComplete);
+                if (profileComplete) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return HomePage();
+                      },
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return CompleteProfile();
+                      },
+                    ),
+                  );
+                }
               } else {
                 Navigator.push(
                   context,

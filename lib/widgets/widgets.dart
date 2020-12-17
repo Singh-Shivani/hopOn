@@ -44,7 +44,6 @@ class InputFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: (value) {
-        //TODO: call validator function
         return validator(value);
       },
       decoration: InputDecoration(

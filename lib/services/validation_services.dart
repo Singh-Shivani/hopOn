@@ -6,13 +6,13 @@ class ValidationService {
       return 'Please enter a valid email';
     }
 
-    String pattern = r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$';
-    RegExp regExp = new RegExp(pattern);
-
-    if (!regExp.hasMatch(value)) {
-      // print('here');
-      return 'Please enter a valid email';
-    }
+    // String pattern = r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$';
+    // RegExp regExp = new RegExp(pattern);
+    //
+    // if (!regExp.hasMatch(value)) {
+    //   // print('here');
+    //   return 'Please enter a valid email';
+    // }
 
     return null;
   }

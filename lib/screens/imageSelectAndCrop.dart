@@ -70,21 +70,30 @@ class _ImageSelectAndCropState extends State<ImageSelectAndCrop> {
     return Scaffold(
       // Select an image from the camera or gallery
       bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.photo_camera),
-                onPressed: () => _pickImage(ImageSource.camera),
+        child: Center(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.photo_camera,
+                    size: 40,
+                  ),
+                  onPressed: () => _pickImage(ImageSource.camera),
+                ),
               ),
-            ),
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.photo_library),
-                onPressed: () => _pickImage(ImageSource.gallery),
+              Expanded(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.photo_library,
+                    size: 40,
+                  ),
+                  onPressed: () => _pickImage(ImageSource.gallery),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
 

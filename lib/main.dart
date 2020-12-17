@@ -3,14 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
-import 'screens/landingPage.dart';
 
+import 'screens/landingPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,15 @@ class MyApp extends StatelessWidget {
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (context) => context.read<AuthenticationService>().authStateChanges,
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
         )
       ],
       child: MaterialApp(
         title: 'Vehicle Sharing Platform',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          fontFamily: 'Montserrat',
+          fontFamily: 'Poppins',
           primaryColor: Color.fromRGBO(0, 0, 0, 1),
         ),
         home: LandingPage(),

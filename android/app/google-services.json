@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "817660570833",
+    "firebase_url": "https://hopon-6bf7e-default-rtdb.firebaseio.com",
+    "project_id": "hopon-6bf7e",
+    "storage_bucket": "hopon-6bf7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817660570833:android:a128d08a82424e33ea69f0",
+        "android_client_info": {
+          "package_name": "com.yashashetty.hop_on"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817660570833-q5fvi6ckvth96harn2ekc2m8pqb54top.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvIOFoJqw3R6bVHUAoAZxX76GMjPSkosE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817660570833-q5fvi6ckvth96harn2ekc2m8pqb54top.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

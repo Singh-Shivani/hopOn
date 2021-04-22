@@ -36,6 +36,7 @@ dependencies:
   geolocator: ^7.0.3
   connectivity: ^3.0.2
   firebase_database: ^6.1.2
+  http: ^0.13.1
 
 
 

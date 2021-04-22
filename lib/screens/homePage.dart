@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vehicle_sharing_app/Assistant/assistantMethods.dart';
+
+import 'searchDropOff.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -32,6 +35,12 @@ class _HomePageState extends State<HomePage> {
         new CameraPosition(target: latlngPosition, zoom: 14);
     newGoogleMapController
         .moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String address = await AssistantMethods.searchCoordinateAddress(position);
+    if (address == '') {
+      print('Nulladdress');
+    }
+    print('Your address::' + address);
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -190,33 +199,43 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(Icons.search),
-                            Text(
-                              '\tDrop off location',
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.black54),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return SearchDropOffLocation();
+                          }),
+                        );
+                      },
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.search),
+                              Text(
+                                '\tDrop off location',
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.black54),
+                              ),
+                            ],
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black54,
+                              blurRadius: 4,
+                              spreadRadius: 0.2,
+                              offset: Offset(0.7, 0.7),
                             ),
                           ],
                         ),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black54,
-                            blurRadius: 4,
-                            spreadRadius: 0.2,
-                            offset: Offset(0.7, 0.7),
-                          ),
-                        ],
                       ),
                     ),
                     SizedBox(

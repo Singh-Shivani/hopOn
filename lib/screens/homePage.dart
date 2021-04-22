@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/Assistant/assistantMethods.dart';
+import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
 
 import 'searchDropOff.dart';
 
@@ -36,7 +38,8 @@ class _HomePageState extends State<HomePage> {
     newGoogleMapController
         .moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    String address = await AssistantMethods.searchCoordinateAddress(position);
+    String address =
+        await AssistantMethods.searchCoordinateAddress(position, context);
     if (address == '') {
       print('Nulladdress');
     }
@@ -252,9 +255,19 @@ class _HomePageState extends State<HomePage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Add Home?',
-                                style: TextStyle(fontSize: 14),
+                              Container(
+                                child: Text(
+                                  Provider.of<AppData>(context)
+                                              .pickUpLocation !=
+                                          null
+                                      ? Provider.of<AppData>(context)
+                                          .pickUpLocation
+                                          .placeName
+                                      : 'Add Home',
+                                  style: TextStyle(fontSize: 14),
+                                  // overflow: TextOverflow.ellipsis,
+                                  // maxLines: 1,
+                                ),
                               ),
                               SizedBox(
                                 height: 4,

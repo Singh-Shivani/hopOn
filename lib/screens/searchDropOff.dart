@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
 
 class SearchDropOffLocation extends StatefulWidget {
   @override
@@ -7,8 +9,15 @@ class SearchDropOffLocation extends StatefulWidget {
 }
 
 class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
+  TextEditingController pickUpTextEditingController = TextEditingController();
+  TextEditingController dropOffTextEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    String placeAddress =
+        Provider.of<AppData>(context).pickUpLocation.placeName ??
+            ' Pick Up loaction';
+    pickUpTextEditingController.text = placeAddress;
     return Scaffold(
       body: Container(
         height: 315,
@@ -48,8 +57,9 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
+                        controller: pickUpTextEditingController,
                         decoration: InputDecoration(
-                          labelText: '\tPickup location',
+                          labelText: 'Pick up location',
                         ),
                         style: TextStyle(fontSize: 14, color: Colors.black54),
                       ),
@@ -69,6 +79,7 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
+                        controller: dropOffTextEditingController,
                         decoration: InputDecoration(
                           labelText: '\tWhere to?',
                         ),

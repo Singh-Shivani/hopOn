@@ -8,6 +8,8 @@ class CarList extends StatefulWidget {
 class _CarListState extends State<CarList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Text('car list'),
+    );
   }
 }

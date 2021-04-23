@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/Assistant/assistantMethods.dart';
 import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
-
+import '../widgets/widgets.dart';
 import 'searchDropOff.dart';
 
 class HomePage extends StatefulWidget {
@@ -57,64 +57,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       drawer: Container(
         width: 255,
-        child: Drawer(
-          child: ListView(
-            children: [
-              Container(
-                height: 165,
-                child: DrawerHeader(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_circle,
-                        size: 50,
-                      ),
-                      //TODO 1: User photo should be here
-                      SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Profile Name',
-                            // TODO 2: User Name should be here
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Visit Profile',
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ), //Drawer Header
-              ListTile(
-                leading: Icon(Icons.electric_car_rounded),
-                title: Text(
-                  'Rent my Car',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.history),
-                title: Text(
-                  'History',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.info_outline_rounded),
-                title: Text(
-                  'About us',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ],
-          ),
-        ),
+        child: DrawerList(),
       ),
       body: Stack(
         children: [

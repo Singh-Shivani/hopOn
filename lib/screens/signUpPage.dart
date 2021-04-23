@@ -2,8 +2,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:vehicle_sharing_app/screens/homePage.dart';
-
+import 'package:vehicle_sharing_app/screens/choose.dart';
 import '../widgets/widgets.dart';
 import 'loginPage.dart';
 
@@ -81,7 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return HomePage();
+          return ChooseOption();
         }),
       );
     }

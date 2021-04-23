@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vehicle_sharing_app/screens/signUpPage.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-import '../screens/homePage.dart';
+import 'choose.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return HomePage();
+              return ChooseOption();
             }),
           );
         }

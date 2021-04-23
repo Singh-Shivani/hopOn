@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/Assistant/request.dart';
 import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/configMaps.dart';
+import 'package:vehicle_sharing_app/models/address.dart';
 import 'package:vehicle_sharing_app/models/placePrediction.dart';
+import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
 class SearchDropOffLocation extends StatefulWidget {
   @override
@@ -23,8 +25,10 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
         Provider.of<AppData>(context).pickUpLocation.placeName ??
             ' Pick Up loaction';
     pickUpTextEditingController.text = placeAddress;
+
     return Scaffold(
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -58,10 +62,10 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
-                        Icon(Icons.add_location),
+                        // Icon(Icons.add_location),
                         SizedBox(width: 10),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          width: MediaQuery.of(context).size.width * 0.85,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
@@ -81,10 +85,10 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
-                        Icon(Icons.add_location),
+                        // Icon(Icons.add_location),
                         SizedBox(width: 10),
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          width: MediaQuery.of(context).size.width * 0.85,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
@@ -107,7 +111,18 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    offset: Offset(0.7, 0.7),
+                    spreadRadius: 0.5,
+                    blurRadius: 3,
+                  ),
+                ],
               ),
+            ),
+            SizedBox(
+              height: 20,
             ),
             //tile for place prediction
             (placePredictionList.length > 0)
@@ -121,7 +136,10 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
-                        return Divider();
+                        return Padding(
+                          padding: EdgeInsets.only(left: 30),
+                          child: Divider(),
+                        );
                       },
                       itemCount: placePredictionList.length,
                       shrinkWrap: true,
@@ -164,6 +182,10 @@ class PredictionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        //
+        getPlaceAddressDetails(placePrediction.place_id, context);
+      },
       child: Container(
         child: Column(
           children: [
@@ -206,8 +228,37 @@ class PredictionTile extends StatelessWidget {
     );
   }
 
-  void getPlaceAddressDetails(String placeId) {
+  void getPlaceAddressDetails(String placeId, context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) =>
+          ProgressDialog(status: 'Setting Dropoff location\nPlease Wait....'),
+    );
+
     String placeDetailsUrl =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$geocodingApi';
+
+    var res = await RequestAssistant.getRequest(placeDetailsUrl);
+
+    Navigator.pop(context);
+
+    if (res == 'failed') {
+      return;
+    }
+
+    if (res['status'] == 'OK') {
+      Address address = Address();
+      address.placeName = res['result']['name'];
+      address.placeId = placeId;
+      address.latitude = res['result']['geometry']['location']['lat'];
+      address.longitude = res['result']['geometry']['location']['lng'];
+
+      Provider.of<AppData>(context, listen: false)
+          .updateDropOffLocation(address);
+      print('Drop Off Location ::');
+      print(address.placeName);
+
+      Navigator.pop(context, 'obtainDirection');
+    }
   }
 }

@@ -1,9 +1,11 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/Assistant/request.dart';
 import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/configMaps.dart';
 import 'package:vehicle_sharing_app/models/address.dart';
+import 'package:vehicle_sharing_app/models/directionDetails.dart';
 
 class AssistantMethods {
   static Future<String> searchCoordinateAddress(
@@ -42,5 +44,40 @@ class AssistantMethods {
     }
 
     return placeAddress;
+  }
+
+  static Future<DirectionDetails> obtainPlaceDirectionDetails(
+      LatLng initialPosition, LatLng finalPosition) async {
+    String directionUrl =
+        "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=$geocodingApi";
+
+    var res = await RequestAssistant.getRequest(directionUrl);
+
+    if (res == 'failed') {
+      return null;
+    }
+
+    DirectionDetails directionDetails = DirectionDetails();
+
+    directionDetails.encodedPoints =
+        res['routes'][0]['overview_polyline']['points'];
+    directionDetails.distanceText =
+        res['routes'][0]['legs'][0]['distance']['text'];
+    directionDetails.distanceValue =
+        res['routes'][0]['legs'][0]['distance']['value'];
+    directionDetails.durationText =
+        res['routes'][0]['legs'][0]['duration']['text'];
+    directionDetails.durationValue =
+        res['routes'][0]['legs'][0]['duration']['value'];
+
+    return directionDetails;
+  }
+
+  static int calculateFares(DirectionDetails directionDetails) {
+    double timeTraveledFare = (directionDetails.durationValue / 60) * 0.20;
+    double distanceTraveledFare = (directionDetails.distanceValue / 1000) * 26;
+    double totalFareAmount = (timeTraveledFare + distanceTraveledFare);
+
+    return totalFareAmount.truncate();
   }
 }

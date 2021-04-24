@@ -1,11 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:vehicle_sharing_app/screens/homePage.dart';
 import 'package:vehicle_sharing_app/screens/signUpPage.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-import 'choose.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return ChooseOption();
+              return HomePage();
             }),
           );
         }

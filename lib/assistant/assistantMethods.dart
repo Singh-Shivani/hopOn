@@ -1,9 +1,9 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:vehicle_sharing_app/Assistant/request.dart';
-import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
+import 'package:vehicle_sharing_app/assistant/request.dart';
 import 'package:vehicle_sharing_app/configMaps.dart';
+import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/models/address.dart';
 import 'package:vehicle_sharing_app/models/directionDetails.dart';
 

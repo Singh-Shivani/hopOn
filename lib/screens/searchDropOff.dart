@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:vehicle_sharing_app/Assistant/request.dart';
-import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
+import 'package:vehicle_sharing_app/assistant/request.dart';
 import 'package:vehicle_sharing_app/configMaps.dart';
+import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/models/address.dart';
 import 'package:vehicle_sharing_app/models/placePrediction.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
@@ -27,12 +27,12 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
     pickUpTextEditingController.text = placeAddress;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
-              height: 315,
               child: Column(
                 children: [
                   Padding(
@@ -106,6 +106,9 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                 ],
               ),

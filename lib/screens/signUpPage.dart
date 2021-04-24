@@ -2,8 +2,9 @@ import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:vehicle_sharing_app/screens/choose.dart';
+import 'homePage.dart';
 import '../widgets/widgets.dart';
+import '../globalvariables.dart';
 import 'loginPage.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -64,6 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
 
     if (userCredential != null) {
+      currentFirebaseUser = userCredential;
       DatabaseReference newUserRef = FirebaseDatabase.instance
           .reference()
           .child('users/${userCredential.user.uid}');
@@ -77,10 +79,12 @@ class _SignUpPageState extends State<SignUpPage> {
         'licenseNo': licenseNoController.text,
       });
 
+
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-          return ChooseOption();
+          return HomePage();
         }),
       );
     }

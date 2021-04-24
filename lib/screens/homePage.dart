@@ -13,8 +13,9 @@ import 'package:vehicle_sharing_app/models/directionDetails.dart';
 import 'package:vehicle_sharing_app/screens/carList.dart';
 import 'package:vehicle_sharing_app/screens/loginPage.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-
+import 'owner_homePage.dart';
 import 'searchDropOff.dart';
+import 'package:vehicle_sharing_app/globalvariables.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -128,7 +129,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Profile Name',
+
+                              "displayName",
                             // TODO 2: User Name should be here
                             style: TextStyle(fontSize: 16),
                           ),
@@ -142,14 +144,27 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-              ), //Drawer Header
-              ListTile(
-                leading: Icon(Icons.electric_car_rounded),
-                title: Text(
-                  'Give car on rent',
-                  style: TextStyle(fontSize: 16),
-                ),
               ),
+
+              GestureDetector(
+                onTap: () {
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return DisplayMap();
+                    }),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(Icons.electric_car_rounded),
+                  title: Text(
+                    'Give car on rent',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),//Drawer Header
+
               ListTile(
                 leading: Icon(Icons.history),
                 title: Text(

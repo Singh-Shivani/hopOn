@@ -38,4 +38,5 @@ class FirebaseFunctions {
   Stream<QuerySnapshot> get userDetails {
     return collectionReference.snapshots();
   }
+  // Get data from firestore
 }

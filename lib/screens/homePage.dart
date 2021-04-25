@@ -13,9 +13,9 @@ import 'package:vehicle_sharing_app/screens/carList.dart';
 import 'package:vehicle_sharing_app/screens/loginPage.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-import 'owner_homePage.dart';
+import  'owner_homePage.dart';
+
 import 'searchDropOff.dart';
-import 'package:vehicle_sharing_app/globalvariables.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -80,12 +80,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     currentPosition = position;
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
     CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 14);
+    new CameraPosition(target: latlngPosition, zoom: 14);
     newGoogleMapController
         .moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
     String address =
-        await AssistantMethods.searchCoordinateAddress(position, context);
+    await AssistantMethods.searchCoordinateAddress(position, context);
     if (address == '') {
       print('Nulladdress');
     }
@@ -127,8 +127,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-
-                              "displayName",
+                            'Profile Name',
                             // TODO 2: User Name should be here
                             style: TextStyle(fontSize: 16),
                           ),
@@ -143,10 +142,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
               GestureDetector(
                 onTap: () {
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
@@ -364,11 +361,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Container(
                                   child: Text(
                                     Provider.of<AppData>(context)
-                                                .pickUpLocation !=
-                                            null
+                                        .pickUpLocation !=
+                                        null
                                         ? Provider.of<AppData>(context)
-                                            .pickUpLocation
-                                            .placeName
+                                        .pickUpLocation
+                                        .placeName
                                         : 'Add Home',
                                     style: TextStyle(fontSize: 13),
                                     // overflow: TextOverflow.ellipsis,
@@ -529,7 +526,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             }),
                           );
                         },
-                        child: CustomButton(text: 'Next'),
+                        child: AvailabilityButton(text: 'Next'),
                       ),
                     ],
                   ),
@@ -571,7 +568,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     PolylinePoints polylinePoints = PolylinePoints();
 
     List<PointLatLng> decodedPolylinePointResult =
-        polylinePoints.decodePolyline(details.encodedPoints);
+    polylinePoints.decodePolyline(details.encodedPoints);
 
     pLinesCoordinates.clear();
 
@@ -585,7 +582,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     polylineSet.clear();
 
     setState(
-      () {
+          () {
         Polyline polyline = Polyline(
           color: Colors.green,
           polylineId: PolylineId('PolyLineID'),
@@ -626,9 +623,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
         Marker pickUpLocMarker = Marker(
           icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           infoWindow:
-              InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
+          InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
           position: pickUpLatLng,
           markerId: MarkerId('pickUpId'),
         );

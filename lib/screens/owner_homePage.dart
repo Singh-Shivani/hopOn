@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import '../widgets/widgets.dart';
-import 'register_car.dart';
+import 'carRegistration.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
 
 class DisplayMap extends StatefulWidget {
@@ -112,7 +112,7 @@ class _DisplayMapState extends State<DisplayMap> {
       body: Stack(
         children: [
           GoogleMap(
-            padding: EdgeInsets.only(bottom: 270),
+            padding: EdgeInsets.only(bottom: 125),
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: DisplayMap._kGooglePlex,
@@ -168,10 +168,10 @@ class _DisplayMapState extends State<DisplayMap> {
             right: 0,
             bottom: 0,
             child: Container(
-              height: 270,
+              height: 125,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(25), topRight: Radius.circular(25)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
@@ -184,20 +184,14 @@ class _DisplayMapState extends State<DisplayMap> {
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
                       height: 5,
                     ),
-                    Text('Nice to see you!', style: TextStyle(fontSize: 10, color: Colors.black),),
-                    Text('Where are you going?', style: TextStyle(fontSize: 18, color: Colors.black),),
 
-
-
-
-
-
+                    AvailabilityButton(text: 'Go Online'),
 
 
                   ],

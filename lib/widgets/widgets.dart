@@ -121,4 +121,32 @@ class InputTextField extends StatelessWidget {
   }
 }
 
+class AvailabilityButton extends StatelessWidget {
+  final String text;
+
+  AvailabilityButton({@required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 220,
+      height: 70,
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+      ),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
 

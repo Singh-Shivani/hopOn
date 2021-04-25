@@ -206,7 +206,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                           );
                         }
                       },
-                      child: CustomButton(
+                      child: AvailabilityButton(
                         text: 'Save',
                       ),
                     ),

@@ -34,3 +34,34 @@ class AppUser {
     hasCompleteProfile = data['hasCompleteProfile'];
   }
 }
+
+class VehicleUser {
+  String modelName;
+  String vehicleNumber;
+  String ownerName;
+  String color;
+  String aadharNumber;
+  bool hasCompletedRegistration = false;
+
+  VehicleUser();
+
+  Map<String, dynamic> toMap() {
+    return {
+      'modelName': modelName,
+      'vehicleNumber': vehicleNumber,
+      'ownerName': ownerName,
+      'color': color,
+      'aadharNumber': aadharNumber,
+      'hasCompletedRegistration': hasCompletedRegistration,
+    };
+  }
+
+  VehicleUser.fromMap(Map<String, dynamic> data) {
+    modelName = data['modelName'];
+    vehicleNumber = data['vehicleNumber'];
+    ownerName = data['ownerName'];
+    color = data['color'];
+    aadharNumber = data['aadharNumber'];
+    hasCompletedRegistration = data['hasCompletedRegistration'];
+  }
+}

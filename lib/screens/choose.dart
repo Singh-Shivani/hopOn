@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 // import 'select_car.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import '../screens/homePage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:vehicle_sharing_app/screens/home_page.dart';
+
 import '../widgets/widgets.dart';
 
 class ChooseOption extends StatelessWidget {
@@ -29,26 +30,24 @@ class ChooseOption extends StatelessWidget {
   }
 }
 
-
 class MyChoice extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: <Widget>[
-
             Container(
                 margin: EdgeInsets.fromLTRB(40, 0, 40, 0),
-                child: FlatButton(onPressed:() {
-                  DatabaseReference dbref = FirebaseDatabase.instance.reference().child("Test");
-                  dbref.set("IsConnected");
-                },
-
-                  child: Text('Give vehicle on rent'.toUpperCase(), style: TextStyle(fontSize: 24.0)),
+                child: FlatButton(
+                  onPressed: () {
+                    DatabaseReference dbref =
+                        FirebaseDatabase.instance.reference().child("Test");
+                    dbref.set("IsConnected");
+                  },
+                  child: Text('Give vehicle on rent'.toUpperCase(),
+                      style: TextStyle(fontSize: 24.0)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -59,16 +58,17 @@ class MyChoice extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-
             Container(
                 margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                child: FlatButton(onPressed:() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-                  child: Text('Rent a vehicle'.toUpperCase(), style: TextStyle(fontSize: 24.0)),
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  },
+                  child: Text('Rent a vehicle'.toUpperCase(),
+                      style: TextStyle(fontSize: 24.0)),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -79,8 +79,6 @@ class MyChoice extends StatelessWidget {
           ],
         ),
       ),
-
-
     );
   }
 }

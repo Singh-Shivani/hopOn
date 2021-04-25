@@ -2,8 +2,8 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:vehicle_sharing_app/screens/homePage.dart';
-import 'package:vehicle_sharing_app/screens/signUpPage.dart';
+import 'package:vehicle_sharing_app/screens/home_page.dart';
+import 'package:vehicle_sharing_app/screens/signup_page.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 

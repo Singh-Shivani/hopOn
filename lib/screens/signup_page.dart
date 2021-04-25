@@ -1,11 +1,11 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vehicle_sharing_app/screens/completeProfile.dart';
+import 'package:vehicle_sharing_app/screens/complete_profile.dart';
+import 'package:vehicle_sharing_app/screens/login_page.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 
 import '../widgets/widgets.dart';
-import 'loginPage.dart';
 
 class SignUpPage extends StatefulWidget {
   @override

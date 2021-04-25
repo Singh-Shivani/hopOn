@@ -9,12 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/assistant/assistantMethods.dart';
 import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/models/directionDetails.dart';
-import 'package:vehicle_sharing_app/screens/carList.dart';
-import 'package:vehicle_sharing_app/screens/loginPage.dart';
+import 'package:vehicle_sharing_app/screens/car_list.dart';
+import 'package:vehicle_sharing_app/screens/login_page.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
+import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
-import 'searchDropOff.dart';
+import 'search_dropOff.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
 
@@ -91,15 +91,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     print('Your address::' + address);
   }
 
+  static final CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
+
+  @override
   void initState() {
     locatePosition();
     super.initState();
   }
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(

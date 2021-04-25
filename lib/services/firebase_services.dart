@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 
 class FirebaseFunctions {
+  final CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection('users');
+
   Future<String> uploadUserData(Map<String, dynamic> data) async {
     String isUploaded;
-
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('users');
 
     User currentUser = FirebaseAuth.instance.currentUser;
 
@@ -33,5 +33,9 @@ class FirebaseFunctions {
     print(isComplete);
 
     return isComplete;
+  }
+
+  Stream<QuerySnapshot> get userDetails {
+    return collectionReference.snapshots();
   }
 }

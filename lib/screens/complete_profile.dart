@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
-import 'package:vehicle_sharing_app/screens/homePage.dart';
+import 'package:vehicle_sharing_app/screens/home_page.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/validation_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';

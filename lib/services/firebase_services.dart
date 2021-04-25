@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 
 class FirebaseFunctions {
@@ -10,7 +11,7 @@ class FirebaseFunctions {
         FirebaseFirestore.instance.collection('users');
 
     User currentUser = FirebaseAuth.instance.currentUser;
-
+    currentFirebaseUser = currentUser;
     await collectionReference
         .doc(currentUser.uid)
         .set(data)
@@ -38,6 +39,7 @@ class FirebaseFunctions {
   Future<String> uploadVehicleInfo(Map<String, dynamic> data) async {
     String isRegistered;
     User currentUser = FirebaseAuth.instance.currentUser;
+
     CollectionReference collectionReference =
     FirebaseFirestore.instance.collection('users/${currentUser.uid}/vehicle_details');
 

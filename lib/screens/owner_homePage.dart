@@ -1,10 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vehicle_sharing_app/globalvariables.dart';
 import '../widgets/widgets.dart';
 import 'carRegistration.dart';
-import 'package:vehicle_sharing_app/globalvariables.dart';
+
 
 class DisplayMap extends StatefulWidget {
 
@@ -24,6 +29,9 @@ class _DisplayMapState extends State<DisplayMap> {
   GoogleMapController mapController;
 
   Position currentPosition;
+
+  DatabaseReference tripRequestRef;
+  var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
 
   void setupPositionLocator() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -191,7 +199,16 @@ class _DisplayMapState extends State<DisplayMap> {
                       height: 5,
                     ),
 
-                    AvailabilityButton(text: 'Go Online'),
+                    GestureDetector(
+                      onTap: () {
+                            goOnline();
+                            getLocationUpdates();
+
+                      },
+                      child: AvailabilityButton(
+                        text: 'Go Online',
+                      ),
+                    ),
 
 
                   ],
@@ -204,4 +221,32 @@ class _DisplayMapState extends State<DisplayMap> {
       ),
     );
   }
+
+  void goOnline(){
+    print("entered");
+    Geofire.initialize('driversAvailable');
+    Geofire.setLocation(currentFirebaseUser.uid, currentPosition.latitude, currentPosition.longitude);
+
+    tripRequestRef = FirebaseDatabase.instance.reference().child('drivers/${currentFirebaseUser.uid}/newTrip');
+    tripRequestRef.set('waiting');
+
+    tripRequestRef.onValue.listen((event) {
+
+    });
+
+  }
+
+  void getLocationUpdates(){
+
+    homeTabPositionStream = Geolocator.getPositionStream().listen((Position position) {
+
+      currentPosition = position;
+      Geofire.setLocation(currentFirebaseUser.uid, position.latitude, position.longitude);
+      LatLng pos = LatLng(position.latitude, position.longitude);
+      CameraPosition cp = new CameraPosition(target: pos, zoom: 15);
+      mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
+    });
+
+  }
+
 }

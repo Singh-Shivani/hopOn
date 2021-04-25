@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:vehicle_sharing_app/Assistant/assistantMethods.dart';
-import 'package:vehicle_sharing_app/DataHandler/appdata.dart';
+import 'package:vehicle_sharing_app/assistant/assistantMethods.dart';
+import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/models/directionDetails.dart';
 import 'package:vehicle_sharing_app/screens/carList.dart';
 import 'package:vehicle_sharing_app/screens/loginPage.dart';
+import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 import 'owner_homePage.dart';
 import 'searchDropOff.dart';
@@ -23,8 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  // AuthenticationService _authenticationService =
-  //     AuthenticationService(FirebaseAuth.instance);
 
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
@@ -63,7 +61,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   resetApp() {
     setState(() {
       drawerOpen = true;
-      searchDetailContainerHeight = 300;
+      searchDetailContainerHeight = 240;
       rideDetailContainerHeight = 0;
       bottomPaddingOfMap = 230;
 
@@ -188,7 +186,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
               GestureDetector(
                 onTap: () {
-                  FirebaseAuth.instance.signOut();
+                  context.read<AuthenticationService>().signOut(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
@@ -197,7 +195,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   );
                 },
                 child: ListTile(
-                  leading: Icon(Icons.info_outline_rounded),
+                  leading: Icon(Icons.logout),
                   title: Text(
                     'Sign Out',
                     style: TextStyle(fontSize: 16),

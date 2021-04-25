@@ -1,13 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'homePage.dart';
+import 'package:provider/provider.dart';
+import 'package:vehicle_sharing_app/screens/homePage.dart';
 import 'package:vehicle_sharing_app/screens/signUpPage.dart';
+import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-import 'package:vehicle_sharing_app/globalvariables.dart';
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,55 +13,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  void showSnackBar(String title){
+  void showSnackBar(String title) {
     final snackbar = SnackBar(
-      content: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 15),),);
+      content: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 15),
+      ),
+    );
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
   var emailIdController = TextEditingController();
   var passwordController = TextEditingController();
 
-  void login() async {
-
-    // dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => ProgressDialog(status: 'Logging you in',),
-    );
-
-
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailIdController.text,
-      password: passwordController.text,
-    ).catchError((e){
-      // PlatformException thisEx = e;
-      Navigator.pop(context);
-      showSnackBar(e.message);
-    });
-
-    if (userCredential!=null){
-      currentFirebaseUser = userCredential;
-      DatabaseReference userRef = FirebaseDatabase.instance.reference().child('users/${userCredential.user.uid}');
-
-      userRef.once().then((DataSnapshot snapshot){
-        if(snapshot.value != null){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return HomePage();
-            }),
-          );
-        }
-      });
-    }
-  }
-
   Widget _buildLogin() {
-    return  Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
@@ -81,30 +48,46 @@ class _LoginPageState extends State<LoginPage> {
             height: 50,
           ),
           GestureDetector(
-            onTap:() async {
+            onTap: () async {
               // network connectivity
               var connectivityResult = await Connectivity().checkConnectivity();
-              if(connectivityResult != ConnectivityResult.mobile && connectivityResult != ConnectivityResult.wifi){
+              if (connectivityResult != ConnectivityResult.mobile &&
+                  connectivityResult != ConnectivityResult.wifi) {
                 showSnackBar('No Internet connectivity');
                 return;
               }
 
-              if(!emailIdController.text.contains('@')){
+              if (!emailIdController.text.contains('@')) {
                 showSnackBar('Please provide a valid email address');
               }
 
-              if(passwordController.text.length < 6){
+              if (passwordController.text.length < 6) {
                 showSnackBar('Please provide a password of length more than 6');
               }
-
-              login();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => ProgressDialog(
+                  status: 'Logging you in...',
+                ),
+              );
+              context
+                  .read<AuthenticationService>()
+                  .signIn(
+                    email: emailIdController.text.trim(),
+                    password: passwordController.text.trim(),
+                  )
+                  .then((value) => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return HomePage();
+                        }),
+                      ));
             },
             child: CustomButton(text: 'Login'),
           ),
           Text("\nDon't have any account?"),
           GestureDetector(
             onTap: () {
-              print('Signup');
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
@@ -122,10 +105,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

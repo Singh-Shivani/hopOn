@@ -9,8 +9,10 @@ import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/assistant/assistantMethods.dart';
 import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/models/directionDetails.dart';
+import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/car_list.dart';
 import 'package:vehicle_sharing_app/screens/profile_page.dart';
+import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
 import 'search_dropOff.dart';
@@ -93,11 +95,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
-
+  AppUser userData;
   @override
   void initState() {
     locatePosition();
+    getUser();
     super.initState();
+  }
+
+  getUser() async {
+    userData = await FirebaseFunctions().getUser();
+    setState(() {
+      userData;
+    });
   }
 
   @override
@@ -110,35 +120,37 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: Drawer(
           child: ListView(
             children: [
-              Container(
-                height: 165,
-                child: DrawerHeader(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_circle,
-                        size: 50,
-                      ),
-                      //TODO 1: User photo should be here
-                      SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return ProfilePage();
-                            }),
-                          );
-                        },
-                        child: Column(
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return ProfilePage();
+                    }),
+                  );
+                },
+                child: Container(
+                  height: 165,
+                  child: DrawerHeader(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            // color: Colors.black26,
+                          ),
+                          width: 40,
+                          child: Image.asset('images/tanjiro.png'),
+                        ),
+                        //TODO 1: User photo should be here
+                        SizedBox(width: 10),
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              'Profile Name',
-                              // TODO 2: User Name should be here
-                              style: TextStyle(fontSize: 16),
-                            ),
+                            userData.name != null
+                                ? Text(userData.name)
+                                : Text('Name'),
                             SizedBox(height: 8),
                             Text(
                               'Visit Profile',
@@ -146,8 +158,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ), //Drawer Header
@@ -172,8 +184,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -501,7 +511,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             }),
                           );
                         },
-                        child: CustomButton(text: 'Next'),
+                        child: CustomButton(
+                          text: 'Next',
+                          color: Colors.black,
+                          textColor: Colors.white,
+                        ),
                       ),
                     ],
                   ),

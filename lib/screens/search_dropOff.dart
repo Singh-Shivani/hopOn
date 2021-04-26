@@ -186,7 +186,7 @@ class PredictionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //
+
         getPlaceAddressDetails(placePrediction.place_id, context);
       },
       child: Container(

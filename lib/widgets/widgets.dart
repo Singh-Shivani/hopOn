@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
+  final Color color;
+  final Color textColor;
 
-  CustomButton({@required this.text});
+  CustomButton({@required this.text, this.color, this.textColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+            color: textColor, fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -54,35 +53,37 @@ class InputFormField extends StatelessWidget {
   }
 }
 
-
 class ProgressDialog extends StatelessWidget {
-
   final String status;
   ProgressDialog({this.status});
 
   @override
-
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       backgroundColor: Colors.transparent,
       child: Container(
         margin: EdgeInsets.all(16.0),
         width: double.infinity,
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4.0)
-        ),
+            color: Colors.white, borderRadius: BorderRadius.circular(4.0)),
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Row(
             children: [
-              SizedBox(width: 5,),
-              CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),),
-              SizedBox(width: 25,),
-              Text(status, style: TextStyle(fontSize: 15),),
+              SizedBox(
+                width: 5,
+              ),
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.black54),
+              ),
+              SizedBox(
+                width: 25,
+              ),
+              Text(
+                status,
+                style: TextStyle(fontSize: 15),
+              ),
             ],
           ),
         ),
@@ -92,11 +93,11 @@ class ProgressDialog extends StatelessWidget {
 }
 
 class InputTextField extends StatelessWidget {
-
   final String label;
   final Icon icon;
   final TextEditingController controller;
-  InputTextField({ @required this.label,@required this.icon, @required this.controller});
+  InputTextField(
+      {@required this.label, @required this.icon, @required this.controller});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -105,7 +106,6 @@ class InputTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           icon: icon,
-
           labelText: label,
         ),
         onSaved: (String value) {
@@ -115,7 +115,6 @@ class InputTextField extends StatelessWidget {
         validator: (String value) {
           return value.length < 4 ? 'Enter a valid Email-Id' : null;
         },
-
       ),
     );
   }

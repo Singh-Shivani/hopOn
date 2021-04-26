@@ -10,9 +10,7 @@ import 'package:vehicle_sharing_app/assistant/assistantMethods.dart';
 import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
 import 'package:vehicle_sharing_app/models/directionDetails.dart';
 import 'package:vehicle_sharing_app/screens/car_list.dart';
-import 'package:vehicle_sharing_app/screens/login_page.dart';
-import 'package:vehicle_sharing_app/services/authentication_service.dart';
-import 'package:vehicle_sharing_app/services/firebase_services.dart';
+import 'package:vehicle_sharing_app/screens/profile_page.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
 import 'search_dropOff.dart';
@@ -124,20 +122,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       //TODO 1: User photo should be here
                       SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Profile Name',
-                            // TODO 2: User Name should be here
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Visit Profile',
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                        ],
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return ProfilePage();
+                            }),
+                          );
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Profile Name',
+                              // TODO 2: User Name should be here
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              'Visit Profile',
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -164,31 +172,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<AuthenticationService>().signOut(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return LoginPage();
-                    }),
-                  );
-                },
-                child: ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text(
-                    'Sign Out',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
+
+
             ],
           ),
         ),

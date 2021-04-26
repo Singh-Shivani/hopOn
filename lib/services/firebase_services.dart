@@ -35,8 +35,21 @@ class FirebaseFunctions {
     return isComplete;
   }
 
-  Stream<QuerySnapshot> get userDetails {
-    return collectionReference.snapshots();
-  }
   // Get data from firestore
+  final uid = FirebaseAuth.instance.currentUser.uid;
+
+  Future<AppUser> getUser() async {
+    final userDoc = await collectionReference.doc(uid).get();
+    print('USer id:: ');
+    print(uid);
+
+    if (userDoc.exists) {
+      final userData = userDoc.data();
+      print('USer Data :: ');
+      print(userData);
+      final deocdedData = AppUser.fromMap(userData);
+      print(deocdedData);
+      return deocdedData;
+    }
+  }
 }

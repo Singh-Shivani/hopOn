@@ -123,8 +123,9 @@ class InputTextField extends StatelessWidget {
 
 class AvailabilityButton extends StatelessWidget {
   final String text;
+  final Color color;
 
-  AvailabilityButton({@required this.text});
+  AvailabilityButton({@required this.text, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +134,7 @@ class AvailabilityButton extends StatelessWidget {
       height: 70,
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       child: Text(
@@ -148,5 +149,36 @@ class AvailabilityButton extends StatelessWidget {
     );
   }
 }
+
+class ConfirmSheetButton extends StatelessWidget {
+
+  final String title;
+  final Color color;
+
+
+  ConfirmSheetButton({this.title,this.color,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+      ),
+      child: Container(
+        height: 50.0,
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 22.0, fontFamily: 'MuseoModemo', color: Colors.black87),
+
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 

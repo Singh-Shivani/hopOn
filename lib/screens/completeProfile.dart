@@ -182,8 +182,10 @@ class _CompleteProfileState extends State<CompleteProfile> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Processing')));
                         initAppUser();
+                        print("dfgdghfhgjhg");
                         String isComplete = await firebaseFunctions
                             .uploadUserData(user.toMap());
+
                         if (isComplete == 'true') {
                           await Navigator.push(
                             context,
@@ -206,7 +208,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                           );
                         }
                       },
-                      child: AvailabilityButton(
+                      child: CustomButton(
                         text: 'Save',
                       ),
                     ),

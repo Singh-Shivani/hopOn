@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       );
                 },
-                child: AvailabilityButton(text: 'Sign Up'),
+                child: CustomButton(text: 'Sign Up'),
               ),
               Text('\nAlready a registered user?'),
               GestureDetector(

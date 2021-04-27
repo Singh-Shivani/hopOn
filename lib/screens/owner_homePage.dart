@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:vehicle_sharing_app/widgets/confirmSheet.dart';
+import 'loginPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
+import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import '../widgets/widgets.dart';
 import 'carRegistration.dart';
 
@@ -25,6 +30,20 @@ class DisplayMap extends StatefulWidget {
 class _DisplayMapState extends State<DisplayMap> {
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+
+
+  void showSnackBar(String title) {
+    final snackbar = SnackBar(
+      content: Text(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 15),
+      ),
+    );
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
   Completer<GoogleMapController> _controller = Completer();
   GoogleMapController mapController;
 
@@ -32,6 +51,12 @@ class _DisplayMapState extends State<DisplayMap> {
 
   DatabaseReference tripRequestRef;
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
+
+  String availabilityText = 'Go Online';
+  Color availabilityColor = Colors.black;
+  bool isAvailable = false;
+  String exist = 'donotexist';
+
 
   void setupPositionLocator() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -45,6 +70,7 @@ class _DisplayMapState extends State<DisplayMap> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       key: scaffoldKey,
       drawer: Container(
@@ -104,11 +130,22 @@ class _DisplayMapState extends State<DisplayMap> {
                   ),
                 ),
               ),
-              ListTile(
-                leading: Icon(Icons.info_outline_rounded),
-                title: Text(
-                  'Sign Out',
-                  style: TextStyle(fontSize: 16),
+              GestureDetector(
+                onTap: () {
+                  context.read<AuthenticationService>().signOut(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return LoginPage();
+                    }),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text(
+                    'Sign Out',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
             ],
@@ -200,13 +237,55 @@ class _DisplayMapState extends State<DisplayMap> {
                     ),
 
                     GestureDetector(
-                      onTap: () {
-                            goOnline();
-                            getLocationUpdates();
+                      onTap:  () async {
+                        await checkIfDocExists();
+                        if(exist == 'docexist') {
+                          showModalBottomSheet(
+                              isDismissible: false,
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  ConfirmSheet(
+
+                                    title: (!isAvailable)
+                                        ? 'Go Online'
+                                        : 'Go Offline',
+                                    subtitle: (!isAvailable)
+                                        ? 'You are about to go online'
+                                        : 'You are about to go offline',
+
+                                    onPressed: () {
+                                      if (!isAvailable) {
+                                        goOnline();
+                                        getLocationUpdates();
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          availabilityColor = Colors.green;
+                                          availabilityText = 'Go Offline';
+                                          isAvailable = true;
+                                        });
+                                      }
+                                      else {
+                                        goOffline();
+                                        Navigator.pop(context);
+                                        setState(() {
+                                          availabilityColor = Colors.black;
+                                          availabilityText = 'Go Online';
+                                          isAvailable = false;
+                                        });
+                                      }
+                                    },
+                                  )
+                          );
+                        }
+                        else{
+                          showSnackBar(exist);
+                        }
+
 
                       },
                       child: AvailabilityButton(
-                        text: 'Go Online',
+                        text: availabilityText,
+                        color: availabilityColor,
                       ),
                     ),
 
@@ -222,8 +301,29 @@ class _DisplayMapState extends State<DisplayMap> {
     );
   }
 
+  /// Check If Vehicle Info Exists
+  Future<void> checkIfDocExists() async{
+    try {
+
+      var collectionRef = FirebaseFirestore.instance.collection('users/${currentFirebaseUser.uid}/vehicle_details');
+
+      var doc = await collectionRef.doc(currentFirebaseUser.uid).get();
+      if(doc.exists){
+        exist = 'docexist';
+
+      }
+      else{
+        exist = 'Please Register Your Car';
+      }
+    } catch (e) {
+        exist = e;
+    }
+  }
+
   void goOnline(){
+    print(currentFirebaseUser.uid);
     print("entered");
+
     Geofire.initialize('driversAvailable');
     Geofire.setLocation(currentFirebaseUser.uid, currentPosition.latitude, currentPosition.longitude);
 
@@ -238,15 +338,29 @@ class _DisplayMapState extends State<DisplayMap> {
 
   void getLocationUpdates(){
 
+    print("location updates");
+
     homeTabPositionStream = Geolocator.getPositionStream().listen((Position position) {
 
       currentPosition = position;
-      Geofire.setLocation(currentFirebaseUser.uid, position.latitude, position.longitude);
+      if(isAvailable){
+        Geofire.setLocation(currentFirebaseUser.uid, position.latitude, position.longitude);
+      }
       LatLng pos = LatLng(position.latitude, position.longitude);
       CameraPosition cp = new CameraPosition(target: pos, zoom: 15);
       mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
     });
 
   }
+
+  void goOffline(){
+
+    Geofire.removeLocation(currentFirebaseUser.uid);
+    tripRequestRef.onDisconnect();
+    tripRequestRef.remove();
+    tripRequestRef = null;
+  }
+
+
 
 }

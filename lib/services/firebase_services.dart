@@ -11,6 +11,7 @@ class FirebaseFunctions {
         FirebaseFirestore.instance.collection('users');
 
     User currentUser = FirebaseAuth.instance.currentUser;
+    print(currentUser.uid);
     currentFirebaseUser = currentUser;
     await collectionReference
         .doc(currentUser.uid)
@@ -27,7 +28,7 @@ class FirebaseFunctions {
         FirebaseFirestore.instance.collection('users');
 
     User currentUser = FirebaseAuth.instance.currentUser;
-
+    currentFirebaseUser = currentUser;
     bool isComplete = false;
     await collectionReference.doc(currentUser.uid).get().then((docSnap) =>
         isComplete = AppUser.fromMap(docSnap.data()).hasCompleteProfile);
@@ -39,7 +40,7 @@ class FirebaseFunctions {
   Future<String> uploadVehicleInfo(Map<String, dynamic> data) async {
     String isRegistered;
     User currentUser = FirebaseAuth.instance.currentUser;
-
+    currentFirebaseUser = currentUser;
     CollectionReference collectionReference =
     FirebaseFirestore.instance.collection('users/${currentUser.uid}/vehicle_details');
 
@@ -55,4 +56,7 @@ class FirebaseFunctions {
 
 
   }
+
+
+
 }

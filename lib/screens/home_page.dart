@@ -98,8 +98,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   AppUser userData;
   @override
   void initState() {
-    locatePosition();
     getUser();
+    locatePosition();
     super.initState();
   }
 
@@ -140,11 +140,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             shape: BoxShape.circle,
                             // color: Colors.black26,
                           ),
-                          width: 40,
+                          width: 50,
                           child: Image.asset('images/tanjiro.png'),
                         ),
                         //TODO 1: User photo should be here
-                        SizedBox(width: 10),
+                        SizedBox(width: 40),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -513,8 +513,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         },
                         child: CustomButton(
                           text: 'Next',
-                          color: Colors.black,
-                          textColor: Colors.white,
                         ),
                       ),
                     ],

@@ -13,7 +13,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             height: 400,
             decoration: BoxDecoration(
-              color: Colors.black,
+              // color: Colors.black,
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(80),
               ),
@@ -41,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                         child: Icon(
                           Icons.arrow_back_rounded,
-                          color: Colors.white,
+                          // color: Colors.white,
                         ),
                       ),
                       GestureDetector(
@@ -58,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         },
                         child: Icon(
                           Icons.logout,
-                          color: Colors.white,
+                          // color: Colors.white,
                         ),
                       ),
                     ],
@@ -76,8 +75,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       } else {
                         return Center(
                           child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          ),
+                              // backgroundColor: Colors.white,
+                              ),
                         );
                       }
                     },
@@ -90,8 +89,8 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Align(
               alignment: FractionalOffset.bottomCenter,
               child: Container(
-                height: 300,
-                color: Colors.white,
+                height: 240,
+                // color: Colors.white,
                 width: MediaQuery.of(context).size.width,
                 child: ListView(
                   children: [
@@ -147,7 +146,7 @@ class ProfileData extends StatelessWidget {
           Text(
             docSnapshot.data.name,
             style: TextStyle(
-              color: Colors.white,
+              // color: Colors.white,
               fontSize: 22,
               fontWeight: FontWeight.w600,
             ),
@@ -155,7 +154,7 @@ class ProfileData extends StatelessWidget {
           Text(
             docSnapshot.data.emailID,
             style: TextStyle(
-              color: Colors.white,
+              // color: Colors.white,
               fontSize: 13,
             ),
           ),
@@ -175,8 +174,6 @@ class ProfileData extends StatelessWidget {
             },
             child: CustomButton(
               text: 'Details',
-              color: Colors.white,
-              textColor: Colors.black,
             ),
           ),
         ],

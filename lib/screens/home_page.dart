@@ -14,6 +14,7 @@ import 'package:vehicle_sharing_app/screens/car_list.dart';
 import 'package:vehicle_sharing_app/screens/profile_page.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
+import  'owner_homePage.dart';
 
 import 'search_dropOff.dart';
 
@@ -163,11 +164,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ),
               ), //Drawer Header
-              ListTile(
-                leading: Icon(Icons.electric_car_rounded),
-                title: Text(
-                  'Give car on rent',
-                  style: TextStyle(fontSize: 16),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return DisplayMap();
+                    }),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(Icons.electric_car_rounded),
+                  title: Text(
+                    'Give car on rent',
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
               ListTile(

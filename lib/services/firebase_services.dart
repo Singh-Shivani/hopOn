@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
+import 'package:vehicle_sharing_app/globalvariables.dart';
 
 class FirebaseFunctions {
   final CollectionReference collectionReference =
@@ -51,5 +52,25 @@ class FirebaseFunctions {
       print(deocdedData);
       return deocdedData;
     }
+  }
+
+  Future<String> uploadVehicleInfo(Map<String, dynamic> data) async {
+    String isRegistered;
+    User currentUser = FirebaseAuth.instance.currentUser;
+    currentFirebaseUser = currentUser;
+    CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('users/${currentUser.uid}/vehicle_details');
+
+
+    await collectionReference
+        .doc(currentUser.uid)
+        .set(data)
+        .then((_) => isRegistered = 'true')
+    // ignore: return_of_invalid_type_from_catch_error
+        .catchError((e) => isRegistered = e.message);
+    print(isRegistered);
+    return isRegistered;
+
+
   }
 }

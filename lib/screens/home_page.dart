@@ -277,23 +277,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
 
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) {
-                      return CarList(carlist: nearbyCarId);
-                    }),
-                  );
-                },
-                child: ListTile(
-                  leading: Icon(Icons.electric_car_rounded),
-                  title: Text(
-                    'List car',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
+
             ],
           ),
         ),
@@ -620,7 +604,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return CarList(carlist: nearbyCarId);
+                              return CarList(
+                                  carlist: nearbyCarId,
+                                  cost: ((tripDirectionDetails != null)
+                                      ? 'Rs. ${AssistantMethods.calculateFares(
+                                      tripDirectionDetails)}'
+                                      : ''));
                             }),
                           );
                         },

@@ -8,7 +8,8 @@ import 'car_details.dart';
 
 class CarList extends StatefulWidget {
   final List<dynamic> carlist;
-  CarList({this.carlist});
+  final String cost;
+  CarList({this.carlist, this.cost});
 
   @override
   _CarListState createState() => _CarListState();
@@ -95,7 +96,7 @@ class _CarListState extends State<CarList> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text('Rs XXXX',
+                                    Text('Rs.'+widget.cost,
                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                                     ),
                                   ],

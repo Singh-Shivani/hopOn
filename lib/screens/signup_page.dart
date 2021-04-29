@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       );
                 },
-                child: CustomButton(text: 'Sign Up'),
+                child: CustomButton(text: 'Sign Up', color:Colors.black, textColor: Colors.white),
               ),
               Text('\nAlready a registered user?'),
               GestureDetector(

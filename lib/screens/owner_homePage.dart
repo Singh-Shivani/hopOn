@@ -14,6 +14,7 @@ import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import '../widgets/widgets.dart';
 import 'carRegistration.dart';
+import 'home_page.dart';
 
 
 class DisplayMap extends StatefulWidget {
@@ -110,7 +111,28 @@ class _DisplayMapState extends State<DisplayMap> {
                     ],
                   ),
                 ),
-              ), //Drawer Header
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return HomePage();
+                      }
+                      ));
+                },
+
+                child: ListTile(
+                  leading: Icon(Icons.electric_car_rounded),
+                  title: Text(
+                    'Home Page',
+                    style: TextStyle(fontSize: 16),
+
+                  ),
+                ),
+              ),
+              //Drawer Header
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -324,10 +346,10 @@ class _DisplayMapState extends State<DisplayMap> {
     print(currentFirebaseUser.uid);
     print("entered");
 
-    Geofire.initialize('driversAvailable');
+    Geofire.initialize('carsAvailable');
     Geofire.setLocation(currentFirebaseUser.uid, currentPosition.latitude, currentPosition.longitude);
 
-    tripRequestRef = FirebaseDatabase.instance.reference().child('drivers/${currentFirebaseUser.uid}/newTrip');
+    tripRequestRef = FirebaseDatabase.instance.reference().child('cars/${currentFirebaseUser.uid}/newTrip');
     tripRequestRef.set('waiting');
 
     tripRequestRef.onValue.listen((event) {

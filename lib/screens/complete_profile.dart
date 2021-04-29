@@ -207,7 +207,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                         }
                       },
                       child: CustomButton(
-                        text: 'Save',
+                        text: 'Save',color:Colors.black, textColor: Colors.white
                       ),
                     ),
                   ],

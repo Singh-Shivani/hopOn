@@ -128,7 +128,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                         }
                       },
                       child: CustomButton(
-                        text: 'Submit',
+                        text: 'Submit',color:Colors.black, textColor: Colors.white,
                       ),
                     ),
                   ],

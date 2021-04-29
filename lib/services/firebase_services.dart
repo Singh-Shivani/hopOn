@@ -73,4 +73,23 @@ class FirebaseFunctions {
 
 
   }
+
+  Future<VehicleUser> getOwner(String key) async {
+
+    CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('users/$key/vehicle_details');
+    final ownerDoc = await collectionReference.doc(key).get();
+    print('USer id:: ');
+    print(ownerDoc);
+
+    if (ownerDoc.exists) {
+      final ownerData = ownerDoc.data();
+      print('Owner Data :: ');
+      print(ownerData);
+      final decodedData = VehicleUser.fromMap(ownerData);
+      print(decodedData);
+      return decodedData;
+    }
+  }
+
 }

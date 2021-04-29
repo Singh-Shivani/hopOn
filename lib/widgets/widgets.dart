@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
+  final Color color;
+  final Color textColor;
 
-  CustomButton({@required this.text});
+  CustomButton({@required this.text, this.color, this.textColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: color,
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       child: Text(
         text,
         style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-        ),
+            color: textColor, fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
   }

@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/assistant/assistantMethods.dart';
 import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
@@ -13,10 +15,14 @@ import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/car_list.dart';
 import 'package:vehicle_sharing_app/screens/profile_page.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
+import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 import  'owner_homePage.dart';
-
+import 'login_page.dart';
 import 'search_dropOff.dart';
+import '../globalvariables.dart';
+import '../models/nearbyCar.dart';
+import '../assistant/fireHelper.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,7 +44,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
 
-  Position currentPosition;
+
   void geolocator = Geolocator();
 
   double rideDetailContainerHeight = 0;
@@ -47,6 +53,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   bool drawerOpen = true;
   String finalDestination = '';
   String initialLocation = '';
+
+  List nearbyCarId = [];
 
   void displayRideDetailContainer() async {
     await getPlaceDirection();
@@ -75,21 +83,75 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void locatePosition() async {
+    print("entered locateposition");
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
     CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 14);
+    new CameraPosition(target: latlngPosition, zoom: 14);
     newGoogleMapController
         .moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-    String address =
-        await AssistantMethods.searchCoordinateAddress(position, context);
+    startGeofireListener();
+    String address = await AssistantMethods.searchCoordinateAddress(position, context);
     if (address == '') {
       print('Nulladdress');
     }
-    print('Your address::' + address);
+    print("Your address:: "+address);
+
+  }
+
+  void startGeofireListener() {
+    print(currentPosition);
+    Geofire.initialize('carsAvailable');
+    Geofire.queryAtLocation(
+        currentPosition.latitude, currentPosition.longitude, 20).listen((map) {
+      print(map);
+      if (map != null) {
+        var callBack = map['callBack'];
+
+        //latitude will be retrieved from map['latitude']
+        //longitude will be retrieved from map['longitude']
+
+        switch (callBack) {
+          case Geofire.onKeyEntered:
+
+            NearbyCar nearbyCar = NearbyCar();
+            nearbyCar.key = map['key'];
+            nearbyCar.latitude = map['latitude'];
+            nearbyCar.longitude = map['longitude'];
+
+            nearbyCarId.add(map['key']);
+            FireHelper.nearbyCarList.add(nearbyCar);
+            break;
+
+          case Geofire.onKeyExited:
+            int index = nearbyCarId.indexWhere((element) => element.key == map['key']);
+            nearbyCarId.removeAt(index);
+            FireHelper.removeFromList(map['key']);
+            break;
+
+          case Geofire.onKeyMoved:
+          // Update your key's location
+
+            NearbyCar nearbyCar = NearbyCar();
+            nearbyCar.key = map['key'];
+            nearbyCar.latitude = map['latitude'];
+            nearbyCar.longitude = map['longitude'];
+
+            FireHelper.updateNearByLocation(nearbyCar);
+            break;
+
+          case Geofire.onGeoQueryReady:
+          // All Intial Data is loaded
+            print("Firehelper length: ${FireHelper.nearbyCarList.length}");
+
+
+            break;
+        }
+      }
+      NearbyCar nearbyCar = NearbyCar();
+    });
   }
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -97,6 +159,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     zoom: 14.4746,
   );
   AppUser userData;
+
   @override
   void initState() {
     getUser();
@@ -195,6 +258,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   style: TextStyle(fontSize: 16),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  context.read<AuthenticationService>().signOut(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return LoginPage();
+                    }),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text(
+                    'Sign Out',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+
+
             ],
           ),
         ),
@@ -356,12 +439,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               children: [
                                 Container(
                                   child: Text(
-                                    Provider.of<AppData>(context)
-                                                .pickUpLocation !=
-                                            null
-                                        ? Provider.of<AppData>(context)
-                                            .pickUpLocation
-                                            .placeName
+                                    Provider
+                                        .of<AppData>(context)
+                                        .pickUpLocation !=
+                                        null
+                                        ? Provider
+                                        .of<AppData>(context)
+                                        .pickUpLocation
+                                        .placeName
                                         : 'Add Home',
                                     style: TextStyle(fontSize: 13),
                                     // overflow: TextOverflow.ellipsis,
@@ -499,7 +584,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Text('Cost of Ride - \t'),
                                 Text(
                                   ((tripDirectionDetails != null)
-                                      ? 'Rs. ${AssistantMethods.calculateFares(tripDirectionDetails)}'
+                                      ? 'Rs. ${AssistantMethods.calculateFares(
+                                      tripDirectionDetails)}'
                                       : ''),
                                   style: TextStyle(
                                       fontSize: 16,
@@ -518,7 +604,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
-                              return CarList();
+                              return CarList(
+                                  carlist: nearbyCarId,
+                                  cost: ((tripDirectionDetails != null)
+                                      ? 'Rs. ${AssistantMethods.calculateFares(
+                                      tripDirectionDetails)}'
+                                      : ''));
                             }),
                           );
                         },
@@ -539,8 +630,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Future<void> getPlaceDirection() async {
     var initialPos =
-        Provider.of<AppData>(context, listen: false).pickUpLocation;
-    var finalPos = Provider.of<AppData>(context, listen: false).dropOffLocation;
+        Provider
+            .of<AppData>(context, listen: false)
+            .pickUpLocation;
+    var finalPos = Provider
+        .of<AppData>(context, listen: false)
+        .dropOffLocation;
 
     var pickUpLatLng = LatLng(initialPos.latitude, initialPos.longitude);
     var dropOffLatLng = LatLng(finalPos.latitude, finalPos.longitude);
@@ -566,7 +661,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     PolylinePoints polylinePoints = PolylinePoints();
 
     List<PointLatLng> decodedPolylinePointResult =
-        polylinePoints.decodePolyline(details.encodedPoints);
+    polylinePoints.decodePolyline(details.encodedPoints);
 
     pLinesCoordinates.clear();
 
@@ -580,7 +675,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     polylineSet.clear();
 
     setState(
-      () {
+          () {
         Polyline polyline = Polyline(
           color: Colors.green,
           polylineId: PolylineId('PolyLineID'),
@@ -621,9 +716,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
         Marker pickUpLocMarker = Marker(
           icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           infoWindow:
-              InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
+          InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
           position: pickUpLatLng,
           markerId: MarkerId('pickUpId'),
         );
@@ -665,4 +760,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
     );
   }
+
+
+
 }

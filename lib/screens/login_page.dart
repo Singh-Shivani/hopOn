@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                         }),
                       ));
             },
-            child: CustomButton(text: 'Login'),
+            child: CustomButton(text: 'Login', color:Colors.black, textColor: Colors.white),
           ),
           Text("\nDon't have any account?"),
           GestureDetector(

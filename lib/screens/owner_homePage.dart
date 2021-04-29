@@ -6,14 +6,18 @@ import 'login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import '../widgets/widgets.dart';
 import 'carRegistration.dart';
+import 'home_page.dart';
+import 'profile_page.dart';
 
 
 class DisplayMap extends StatefulWidget {
@@ -48,6 +52,7 @@ class _DisplayMapState extends State<DisplayMap> {
   GoogleMapController mapController;
 
   Position currentPosition;
+  AppUser userData;
 
   DatabaseReference tripRequestRef;
   var locationOptions = LocationOptions(accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
@@ -69,6 +74,19 @@ class _DisplayMapState extends State<DisplayMap> {
   }
 
   @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
+
+  getUser() async {
+    userData = await FirebaseFunctions().getUser();
+    setState(() {
+      userData;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -79,38 +97,70 @@ class _DisplayMapState extends State<DisplayMap> {
         child: Drawer(
           child: ListView(
             children: [
-              Container(
-                height: 165,
-                child: DrawerHeader(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.account_circle,
-                        size: 50,
-                      ),
-                      //TODO 1: User photo should be here
-                      SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-
-                            "displayName",
-                            // TODO 2: User Name should be here
-                            style: TextStyle(fontSize: 16),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return ProfilePage();
+                    }),
+                  );
+                },
+                child: Container(
+                  height: 165,
+                  child: DrawerHeader(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            // color: Colors.black26,
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Visit Profile',
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                    ],
+                          width: 40,
+                          child: Image.asset('images/tanjiro.png'),
+                        ),
+                        //TODO 1: User photo should be here
+                        SizedBox(width: 10),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            userData.name != null
+                                ? Text(userData.name)
+                                : Text('Name'),
+                            SizedBox(height: 8),
+                            Text(
+                              'Visit Profile',
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ), //Drawer Header
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return HomePage();
+                      }
+                      ));
+                },
+
+                child: ListTile(
+                  leading: Icon(Icons.electric_car_rounded),
+                  title: Text(
+                    'Home Page',
+                    style: TextStyle(fontSize: 16),
+
+                  ),
+                ),
+              ),
+              //Drawer Header
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -324,10 +374,10 @@ class _DisplayMapState extends State<DisplayMap> {
     print(currentFirebaseUser.uid);
     print("entered");
 
-    Geofire.initialize('driversAvailable');
+    Geofire.initialize('carsAvailable');
     Geofire.setLocation(currentFirebaseUser.uid, currentPosition.latitude, currentPosition.longitude);
 
-    tripRequestRef = FirebaseDatabase.instance.reference().child('drivers/${currentFirebaseUser.uid}/newTrip');
+    tripRequestRef = FirebaseDatabase.instance.reference().child('cars/${currentFirebaseUser.uid}/newTrip');
     tripRequestRef.set('waiting');
 
     tripRequestRef.onValue.listen((event) {

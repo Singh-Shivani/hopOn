@@ -7,6 +7,7 @@ import '../widgets/widgets.dart';
 
 class DetailsCar extends StatefulWidget {
   final AsyncSnapshot<VehicleUser> docSnapshot;
+
   final int rideCost;
   // final String totalCost;
 
@@ -88,6 +89,10 @@ class _DetailsCarState extends State<DetailsCar> {
                     Data(
                       carTitle: 'Owner Name  : ',
                       carInfo: widget.docSnapshot.data.ownerName,
+                    ),
+                    Data(
+                      carTitle: 'Owner email ID  : ',
+                      carInfo: widget.docSnapshot.data.ownerEmail,
                     ),
                     Data(
                       carTitle: 'Vehicle Color  : ',

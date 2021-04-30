@@ -46,6 +46,7 @@ class VehicleUser {
   String aadharNumber;
   bool hasCompletedRegistration = false;
   String amount;
+  String ownerEmail;
 
   VehicleUser();
 
@@ -58,6 +59,7 @@ class VehicleUser {
       'aadharNumber': aadharNumber,
       'hasCompletedRegistration': hasCompletedRegistration,
       'amount': amount,
+      'ownerEmail': ownerEmail
     };
   }
 
@@ -69,5 +71,6 @@ class VehicleUser {
     aadharNumber = data['aadharNumber'];
     hasCompletedRegistration = data['hasCompletedRegistration'];
     amount = data['amount'];
+    ownerEmail = data['ownerEmail'];
   }
 }

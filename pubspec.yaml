@@ -39,6 +39,8 @@ dependencies:
   http: ^0.13.1
   flutter_polyline_points: ^1.0.0
   flutter_geofire: ^2.0.0
+  razorpay_flutter: ^1.2.5
+  toast: ^0.1.5
 
 
 

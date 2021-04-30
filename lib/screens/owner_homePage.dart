@@ -14,7 +14,7 @@ import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/confirmSheet.dart';
 
 import '../widgets/widgets.dart';
-import 'carRegistration.dart';
+import 'car_registration.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 import 'profile_page.dart';
@@ -113,17 +113,23 @@ class _DisplayMapState extends State<DisplayMap> {
                             // color: Colors.black26,
                           ),
                           width: 40,
-                          child: Image.asset('images/tanjiro.png'),
+                          child: Image.asset('images/ToyFaces_Tansparent_BG_47.png'),
                         ),
                         //TODO 1: User photo should be here
                         SizedBox(width: 10),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // userData.name != null
-                            //     ? Text(userData.name)
-                            //     :
-                            Text('Name'),
+                            FutureBuilder<AppUser>(
+                              future: FirebaseFunctions().getUser(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(snapshot.data.name);
+                                } else {
+                                  return Text('Name');
+                                }
+                              },
+                            ),
                             SizedBox(height: 8),
                             Text(
                               'Visit Profile',

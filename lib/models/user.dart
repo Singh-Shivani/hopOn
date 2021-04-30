@@ -45,6 +45,7 @@ class VehicleUser {
   String color;
   String aadharNumber;
   bool hasCompletedRegistration = false;
+  String amount;
 
   VehicleUser();
 
@@ -56,6 +57,7 @@ class VehicleUser {
       'color': color,
       'aadharNumber': aadharNumber,
       'hasCompletedRegistration': hasCompletedRegistration,
+      'amount': amount,
     };
   }
 
@@ -66,5 +68,6 @@ class VehicleUser {
     color = data['color'];
     aadharNumber = data['aadharNumber'];
     hasCompletedRegistration = data['hasCompletedRegistration'];
+    amount = data['amount'];
   }
 }

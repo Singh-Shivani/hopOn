@@ -77,7 +77,6 @@ class AssistantMethods {
     double timeTraveledFare = (directionDetails.durationValue / 60) * 0.20;
     double distanceTraveledFare = (directionDetails.distanceValue / 1000) * 26;
     double totalFareAmount = (timeTraveledFare + distanceTraveledFare);
-
     return totalFareAmount.truncate();
   }
 }

@@ -59,8 +59,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     await getPlaceDirection();
     setState(() {
       searchDetailContainerHeight = 0;
-      rideDetailContainerHeight = 240;
-      bottomPaddingOfMap = 230;
+      rideDetailContainerHeight = 270;
+      bottomPaddingOfMap = 260;
       drawerOpen = false;
     });
   }
@@ -102,12 +102,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void startGeofireListener() {
-    print(currentPosition);
+    // print(currentPosition);
     Geofire.initialize('carsAvailable');
     Geofire.queryAtLocation(
             currentPosition.latitude, currentPosition.longitude, 20)
         .listen((map) {
-      print(map);
+      // print(map);
       if (map != null) {
         var callBack = map['callBack'];
 
@@ -162,16 +162,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    getUser();
     locatePosition();
     super.initState();
-  }
-
-  getUser() async {
-    userData = await FirebaseFunctions().getUser();
-    // setState(() {
-    //   userData;
-    // });
   }
 
   @override
@@ -205,16 +197,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             // color: Colors.black26,
                           ),
                           width: 50,
-                          child: Image.asset('images/tanjiro.png'),
+                          child: Image.asset(
+                              'images/ToyFaces_Tansparent_BG_47.png'),
                         ),
                         //TODO 1: User photo should be here
                         SizedBox(width: 40),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // userData.name != null
-                            //     ? Text(userData.name) :
-                            Text('Name'),
+                            FutureBuilder<AppUser>(
+                              future: FirebaseFunctions().getUser(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text(snapshot.data.name);
+                                } else {
+                                  return Text('Name');
+                                }
+                              },
+                            ),
                             SizedBox(height: 8),
                             Text(
                               'Visit Profile',
@@ -376,7 +376,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         style: TextStyle(fontSize: 13),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -422,7 +422,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(
-                        height: 25,
+                        height: 15,
                       ),
                       Container(
                         child: Row(
@@ -440,9 +440,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     Provider.of<AppData>(context)
                                                 .pickUpLocation !=
                                             null
-                                        ? Provider.of<AppData>(context)
-                                            .pickUpLocation
-                                            .placeName
+                                        ? (Provider.of<AppData>(context)
+                                                    .pickUpLocation
+                                                    .placeName
+                                                    .length >
+                                                40
+                                            ? Provider.of<AppData>(context)
+                                                    .pickUpLocation
+                                                    .placeName
+                                                    .substring(0, 41) +
+                                                '\n' +
+                                                Provider.of<AppData>(context)
+                                                    .pickUpLocation
+                                                    .placeName
+                                                    .substring(41)
+                                            : Provider.of<AppData>(context)
+                                                .pickUpLocation
+                                                .placeName)
                                         : 'Add Home',
                                     style: TextStyle(fontSize: 12),
                                     // overflow: TextOverflow.ellipsis,
@@ -602,8 +616,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               return CarList(
                                   carlist: nearbyCarId,
                                   cost: ((tripDirectionDetails != null)
-                                      ? 'Rs. ${AssistantMethods.calculateFares(tripDirectionDetails)}'
-                                      : ''));
+                                      ? AssistantMethods.calculateFares(tripDirectionDetails)
+                                      : 0));
                             }),
                           );
                         },
@@ -645,8 +659,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
 
     Navigator.pop(context);
-    print('encoded points::');
-    print(details.encodedPoints);
+    // print('encoded points::');
+    // print(details.encodedPoints);
 
     PolylinePoints polylinePoints = PolylinePoints();
 

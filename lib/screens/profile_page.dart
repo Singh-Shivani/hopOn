@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
-import 'package:vehicle_sharing_app/screens/edit_profile_page.dart';
+import 'package:vehicle_sharing_app/screens/detail_profile_page.dart';
 import 'package:vehicle_sharing_app/screens/login_page.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
@@ -138,7 +138,7 @@ class ProfileData extends StatelessWidget {
               // color: Colors.black26,
             ),
             width: 60,
-            child: Image.asset('images/tanjiro.png'),
+            child: Image.asset('images/ToyFaces_Tansparent_BG_47.png'),
           ),
           SizedBox(
             height: 20,

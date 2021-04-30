@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
+import 'package:vehicle_sharing_app/models/user.dart';
 
 class FirebaseFunctions {
   final CollectionReference collectionReference =
@@ -41,16 +41,13 @@ class FirebaseFunctions {
 
   Future<AppUser> getUser() async {
     final userDoc = await collectionReference.doc(uid).get();
-    print('USer id:: ');
-    print(uid);
 
     if (userDoc.exists) {
       final userData = userDoc.data();
-      print('USer Data :: ');
-      print(userData);
-      final deocdedData = AppUser.fromMap(userData);
-      print(deocdedData);
-      return deocdedData;
+
+      final decodedData = AppUser.fromMap(userData);
+
+      return decodedData;
     }
   }
 
@@ -58,38 +55,33 @@ class FirebaseFunctions {
     String isRegistered;
     User currentUser = FirebaseAuth.instance.currentUser;
     currentFirebaseUser = currentUser;
-    CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection('users/${currentUser.uid}/vehicle_details');
-
+    CollectionReference collectionReference = FirebaseFirestore.instance
+        .collection('users/${currentUser.uid}/vehicle_details');
 
     await collectionReference
         .doc(currentUser.uid)
         .set(data)
         .then((_) => isRegistered = 'true')
-    // ignore: return_of_invalid_type_from_catch_error
+        // ignore: return_of_invalid_type_from_catch_error
         .catchError((e) => isRegistered = e.message);
     print(isRegistered);
     return isRegistered;
-
-
   }
 
   Future<VehicleUser> getOwner(String key) async {
-
     CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection('users/$key/vehicle_details');
+        FirebaseFirestore.instance.collection('users/$key/vehicle_details');
     final ownerDoc = await collectionReference.doc(key).get();
-    print('USer id:: ');
-    print(ownerDoc);
+    // print('USer id:: ');
+    // print(ownerDoc);
 
     if (ownerDoc.exists) {
       final ownerData = ownerDoc.data();
-      print('Owner Data :: ');
-      print(ownerData);
+      // print('Owner Data :: ');
+      // print(ownerData);
       final decodedData = VehicleUser.fromMap(ownerData);
-      print(decodedData);
+      // print(decodedData);
       return decodedData;
     }
   }
-
 }

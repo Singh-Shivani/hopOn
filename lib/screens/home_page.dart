@@ -6,7 +6,6 @@ import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/assistant/assistantMethods.dart';
 import 'package:vehicle_sharing_app/dataHandler/appdata.dart';
@@ -14,15 +13,16 @@ import 'package:vehicle_sharing_app/models/directionDetails.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/car_list.dart';
 import 'package:vehicle_sharing_app/screens/profile_page.dart';
-import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
+import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
-import  'owner_homePage.dart';
-import 'login_page.dart';
-import 'search_dropOff.dart';
+
+import '../assistant/fireHelper.dart';
 import '../globalvariables.dart';
 import '../models/nearbyCar.dart';
-import '../assistant/fireHelper.dart';
+import 'login_page.dart';
+import 'owner_homePage.dart';
+import 'search_dropOff.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Set<Marker> markerSet = {};
   Set<Circle> circleSet = {};
-
 
   void geolocator = Geolocator();
 
@@ -83,29 +82,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void locatePosition() async {
-    print("entered locateposition");
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+
     CameraPosition cameraPosition =
-    new CameraPosition(target: latlngPosition, zoom: 14);
+        new CameraPosition(target: latlngPosition, zoom: 14);
     newGoogleMapController
         .moveCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    startGeofireListener();
-    String address = await AssistantMethods.searchCoordinateAddress(position, context);
+
+    String address =
+        await AssistantMethods.searchCoordinateAddress(position, context);
     if (address == '') {
       print('Nulladdress');
     }
-    print("Your address:: "+address);
-
+    print('Your address::' + address);
+    startGeofireListener();
   }
 
   void startGeofireListener() {
     print(currentPosition);
     Geofire.initialize('carsAvailable');
     Geofire.queryAtLocation(
-        currentPosition.latitude, currentPosition.longitude, 20).listen((map) {
+            currentPosition.latitude, currentPosition.longitude, 20)
+        .listen((map) {
       print(map);
       if (map != null) {
         var callBack = map['callBack'];
@@ -115,7 +116,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
         switch (callBack) {
           case Geofire.onKeyEntered:
-
             NearbyCar nearbyCar = NearbyCar();
             nearbyCar.key = map['key'];
             nearbyCar.latitude = map['latitude'];
@@ -126,13 +126,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             break;
 
           case Geofire.onKeyExited:
-            int index = nearbyCarId.indexWhere((element) => element.key == map['key']);
+            int index =
+                nearbyCarId.indexWhere((element) => element.key == map['key']);
             nearbyCarId.removeAt(index);
             FireHelper.removeFromList(map['key']);
             break;
 
           case Geofire.onKeyMoved:
-          // Update your key's location
+            // Update your key's location
 
             NearbyCar nearbyCar = NearbyCar();
             nearbyCar.key = map['key'];
@@ -143,9 +144,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             break;
 
           case Geofire.onGeoQueryReady:
-          // All Intial Data is loaded
+            // All Intial Data is loaded
             print("Firehelper length: ${FireHelper.nearbyCarList.length}");
-
 
             break;
         }
@@ -169,9 +169,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   getUser() async {
     userData = await FirebaseFunctions().getUser();
-    setState(() {
-      userData;
-    });
+    // setState(() {
+    //   userData;
+    // });
   }
 
   @override
@@ -212,9 +212,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            userData.name != null
-                                ? Text(userData.name)
-                                : Text('Name'),
+                            // userData.name != null
+                            //     ? Text(userData.name) :
+                            Text('Name'),
                             SizedBox(height: 8),
                             Text(
                               'Visit Profile',
@@ -276,8 +276,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-
-
             ],
           ),
         ),
@@ -375,7 +373,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                       Text(
                         'Hoping to?',
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 13),
                       ),
                       SizedBox(
                         height: 20,
@@ -402,7 +400,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Text(
                                   '\tDrop off location',
                                   style: TextStyle(
-                                      fontSize: 14, color: Colors.black54),
+                                      fontSize: 13, color: Colors.black54),
                                 ),
                               ],
                             ),
@@ -439,16 +437,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               children: [
                                 Container(
                                   child: Text(
-                                    Provider
-                                        .of<AppData>(context)
-                                        .pickUpLocation !=
-                                        null
-                                        ? Provider
-                                        .of<AppData>(context)
-                                        .pickUpLocation
-                                        .placeName
+                                    Provider.of<AppData>(context)
+                                                .pickUpLocation !=
+                                            null
+                                        ? Provider.of<AppData>(context)
+                                            .pickUpLocation
+                                            .placeName
                                         : 'Add Home',
-                                    style: TextStyle(fontSize: 13),
+                                    style: TextStyle(fontSize: 12),
                                     // overflow: TextOverflow.ellipsis,
                                     // maxLines: 1,
                                   ),
@@ -459,7 +455,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Text(
                                   'Your home address',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.black54),
+                                      fontSize: 11, color: Colors.black54),
                                 ),
                               ],
                             ),
@@ -486,7 +482,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               children: [
                                 Text(
                                   'Add Office?',
-                                  style: TextStyle(fontSize: 14),
+                                  style: TextStyle(fontSize: 12),
                                 ),
                                 SizedBox(
                                   height: 4,
@@ -494,7 +490,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Text(
                                   'Your office address',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.black54),
+                                      fontSize: 11, color: Colors.black54),
                                 ),
                               ],
                             ),
@@ -584,8 +580,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 Text('Cost of Ride - \t'),
                                 Text(
                                   ((tripDirectionDetails != null)
-                                      ? 'Rs. ${AssistantMethods.calculateFares(
-                                      tripDirectionDetails)}'
+                                      ? 'Rs. ${AssistantMethods.calculateFares(tripDirectionDetails)}'
                                       : ''),
                                   style: TextStyle(
                                       fontSize: 16,
@@ -607,8 +602,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               return CarList(
                                   carlist: nearbyCarId,
                                   cost: ((tripDirectionDetails != null)
-                                      ? 'Rs. ${AssistantMethods.calculateFares(
-                                      tripDirectionDetails)}'
+                                      ? 'Rs. ${AssistantMethods.calculateFares(tripDirectionDetails)}'
                                       : ''));
                             }),
                           );
@@ -630,12 +624,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Future<void> getPlaceDirection() async {
     var initialPos =
-        Provider
-            .of<AppData>(context, listen: false)
-            .pickUpLocation;
-    var finalPos = Provider
-        .of<AppData>(context, listen: false)
-        .dropOffLocation;
+        Provider.of<AppData>(context, listen: false).pickUpLocation;
+    var finalPos = Provider.of<AppData>(context, listen: false).dropOffLocation;
 
     var pickUpLatLng = LatLng(initialPos.latitude, initialPos.longitude);
     var dropOffLatLng = LatLng(finalPos.latitude, finalPos.longitude);
@@ -661,7 +651,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     PolylinePoints polylinePoints = PolylinePoints();
 
     List<PointLatLng> decodedPolylinePointResult =
-    polylinePoints.decodePolyline(details.encodedPoints);
+        polylinePoints.decodePolyline(details.encodedPoints);
 
     pLinesCoordinates.clear();
 
@@ -675,7 +665,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     polylineSet.clear();
 
     setState(
-          () {
+      () {
         Polyline polyline = Polyline(
           color: Colors.green,
           polylineId: PolylineId('PolyLineID'),
@@ -716,9 +706,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
         Marker pickUpLocMarker = Marker(
           icon:
-          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           infoWindow:
-          InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
+              InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
           position: pickUpLatLng,
           markerId: MarkerId('pickUpId'),
         );
@@ -760,7 +750,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       },
     );
   }
-
-
-
 }

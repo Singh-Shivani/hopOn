@@ -9,9 +9,13 @@ class DetailsCar extends StatefulWidget {
   final AsyncSnapshot<VehicleUser> docSnapshot;
 
   final int rideCost;
-  // final String totalCost;
-
-  DetailsCar({@required this.docSnapshot, this.rideCost});
+  final String pickupDate;
+  final String dropOffDate;
+  DetailsCar(
+      {@required this.docSnapshot,
+      @required this.rideCost,
+      @required this.pickupDate,
+      @required this.dropOffDate});
 
   @override
   _DetailsCarState createState() => _DetailsCarState();
@@ -115,6 +119,14 @@ class _DetailsCarState extends State<DetailsCar> {
                       carInfo: (widget.rideCost +
                               (int.parse(widget.docSnapshot.data.amount)))
                           .toString(),
+                    ),
+                    Data(
+                      carTitle: 'PickUp Date ',
+                      carInfo: widget.pickupDate,
+                    ),
+                    Data(
+                      carTitle: 'DropOff Date',
+                      carInfo: widget.dropOffDate,
                     ),
                   ],
                 ),

@@ -2,14 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
-import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/ride_history_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final String amount;
-  final AsyncSnapshot<VehicleUser> docSnapshot;
 
-  PaymentPage({@required this.amount, this.docSnapshot});
+  PaymentPage({@required this.amount});
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
@@ -28,9 +26,10 @@ class _PaymentPageState extends State<PaymentPage> {
 
     openCheckOut();
   }
-
+  //TODO : Remove RAZORPAY KEY Afterwards
   // rzp_test_l8yCRSz3UfiXKB
   // qKex1KtIwjUAfxYJtZVUUjaw
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -39,8 +38,8 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void handlerPaymentSuccess() {
-    print('handlerPaymentSuccess');
     Toast.show('Payment Successful', context);
+    print('handlerPaymentSuccess');
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -50,6 +49,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void handlerErrorFailure() {
+    Toast.show('Payment Failed', context);
     print('handlerErrorFailure');
   }
 
@@ -63,7 +63,7 @@ class _PaymentPageState extends State<PaymentPage> {
       'amount': (int.parse(widget.amount) * 100).toString(),
       'description': 'Your ride',
       "prefill": {
-        "contact": "9029316216",
+        "contact": '9876543210',
         "email": FirebaseAuth.instance.currentUser.email,
       },
       "external": {

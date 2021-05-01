@@ -19,6 +19,7 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
 
   List<PlacePrediction> placePredictionList = [];
 
+
   @override
   Widget build(BuildContext context) {
     String placeAddress =
@@ -110,6 +111,9 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                   SizedBox(
                     height: 20,
                   ),
+
+                  //CALENDAR
+
                 ],
               ),
               decoration: BoxDecoration(
@@ -186,7 +190,6 @@ class PredictionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
         getPlaceAddressDetails(placePrediction.place_id, context);
       },
       child: Container(

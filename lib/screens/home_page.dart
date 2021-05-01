@@ -59,8 +59,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     await getPlaceDirection();
     setState(() {
       searchDetailContainerHeight = 0;
-      rideDetailContainerHeight = 270;
-      bottomPaddingOfMap = 260;
+      rideDetailContainerHeight = 320;
+      bottomPaddingOfMap = 310;
       drawerOpen = false;
     });
   }
@@ -68,9 +68,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   resetApp() {
     setState(() {
       drawerOpen = true;
-      searchDetailContainerHeight = 240;
+      searchDetailContainerHeight = 300;
       rideDetailContainerHeight = 0;
-      bottomPaddingOfMap = 230;
+      bottomPaddingOfMap = 290;
 
       polylineSet.clear();
       markerSet.clear();
@@ -159,6 +159,61 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     zoom: 14.4746,
   );
   AppUser userData;
+
+  DateTime selectedPickupDate = DateTime.now();
+  DateTime selectedDropOffDate = DateTime.now();
+
+  bool _decideWhichDayToEnable(DateTime day) {
+    if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(Duration(days: 10))))) {
+      return true;
+    }
+    return false;
+  }
+
+  _selectPickupDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedPickupDate, // Refer step 1
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+      initialEntryMode: DatePickerEntryMode.input,
+      selectableDayPredicate: _decideWhichDayToEnable,
+      helpText: 'Select pickup date', // Can be used as title
+      cancelText: 'Not now',
+      confirmText: 'Done',
+      errorFormatText: 'Enter valid date',
+      errorInvalidText: 'Enter date in valid range',
+      fieldLabelText: 'Pickup date',
+      fieldHintText: 'Month/Date/Year',
+    );
+    if (picked != null && picked != selectedPickupDate)
+      setState(() {
+        selectedPickupDate = picked;
+      });
+  }
+
+  _selectDropOffDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDropOffDate, // Refer step 1
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+      initialEntryMode: DatePickerEntryMode.input,
+      selectableDayPredicate: _decideWhichDayToEnable,
+      helpText: 'Select dropOff date', // Can be used as title
+      cancelText: 'Not now',
+      confirmText: 'Done',
+      errorFormatText: 'Enter valid date',
+      errorInvalidText: 'Enter date in valid range',
+      fieldLabelText: 'DropOff date',
+      fieldHintText: 'Month/Date/Year',
+    );
+    if (picked != null && picked != selectedDropOffDate)
+      setState(() {
+        selectedDropOffDate = picked;
+      });
+  }
 
   @override
   void initState() {
@@ -546,11 +601,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         ((initialLocation != '') ? initialLocation : ''),
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -565,12 +621,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ((finalDestination != '') ? finalDestination : ''),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Center(
                         child: Row(
@@ -584,7 +640,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       ? tripDirectionDetails.distanceText
                                       : ''),
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -597,7 +653,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                       ? 'Rs. ${AssistantMethods.calculateFares(tripDirectionDetails)}'
                                       : ''),
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -608,16 +664,72 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       SizedBox(
                         height: 20,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${selectedPickupDate.toLocal()}".split(' ')[0],
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          ElevatedButton(
+                            onPressed: () =>
+                                _selectPickupDate(context), // Refer step 3
+                            child: Text(
+                              'Select Pickup date',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            // color: Colors.greenAccent,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${selectedDropOffDate.toLocal()}".split(' ')[0],
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 20.0,
+                          ),
+                          ElevatedButton(
+                            onPressed: () => _selectDropOffDate(context),
+                            child: Text(
+                              'Select DropOff date',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            // color: Colors.greenAccent,
+                          ),
+                        ],
+                      ),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) {
                               return CarList(
-                                  carlist: nearbyCarId,
-                                  cost: ((tripDirectionDetails != null)
-                                      ? AssistantMethods.calculateFares(tripDirectionDetails)
-                                      : 0));
+                                carlist: nearbyCarId,
+                                cost: ((tripDirectionDetails != null)
+                                    ? AssistantMethods.calculateFares(
+                                        tripDirectionDetails)
+                                    : 0),
+                                pickupDate: "${selectedPickupDate.toLocal()}"
+                                    .split(' ')[0],
+                                dropOffDate: "${selectedDropOffDate.toLocal()}"
+                                    .split(' ')[0],
+                              );
                             }),
                           );
                         },

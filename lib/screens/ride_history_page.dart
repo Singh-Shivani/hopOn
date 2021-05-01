@@ -10,7 +10,12 @@ class _RideHistoryState extends State<RideHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Ride History'),
+        child: Container(
+          color: Colors.blue,
+          child: Text(
+            'Ride History',
+          ),
+        ),
       ),
     );
   }

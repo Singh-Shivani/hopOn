@@ -41,6 +41,7 @@ dependencies:
   flutter_geofire: ^2.0.0
   razorpay_flutter: ^1.2.5
   toast: ^0.1.5
+  table_calendar: ^3.0.0
 
 
 

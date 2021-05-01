@@ -49,8 +49,29 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            // color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              'Register your car',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(
-                      height: 0.03 * deviceSize.height,
+                      height: 20,
                     ),
                     InputFormField(
                       fieldName: 'Model Name',
@@ -101,7 +122,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                       fieldName: 'Rent amount',
                       obscure: false,
                       // validator: ValidationService().aadharNumberValidator,
-                      controller: _aadharcardController,
+                      controller: _rentAmount,
                     ),
                     SizedBox(
                       height: 0.05 * deviceSize.height,
@@ -136,9 +157,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                         }
                       },
                       child: CustomButton(
-                        text: 'Submit',
-                        color: Colors.black,
-                        textColor: Colors.white,
+                        text: 'Register',
                       ),
                     ),
                   ],

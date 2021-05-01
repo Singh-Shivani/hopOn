@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final Color color;
-  final Color textColor;
 
-  CustomButton({@required this.text, this.color, this.textColor});
+  CustomButton({@required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
+      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
       decoration: BoxDecoration(
-        color: color,
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color.fromRGBO(16, 16, 16, 1),
+            Color.fromRGBO(110, 82, 252, 1),
+            Color.fromRGBO(83, 145, 248, 1),
+            // Color.fromRGBO(191, 131, 255, 1),
+          ],
+        ),
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-            color: textColor, fontSize: 20, fontWeight: FontWeight.bold),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
@@ -83,7 +92,7 @@ class ProgressDialog extends StatelessWidget {
               ),
               Text(
                 status,
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 12),
               ),
             ],
           ),
@@ -215,12 +224,13 @@ class AvailabilityButton extends StatelessWidget {
 }
 
 class ConfirmSheetButton extends StatelessWidget {
-
   final String title;
   final Color color;
 
-
-  ConfirmSheetButton({this.title,this.color,});
+  ConfirmSheetButton({
+    this.title,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -235,8 +245,10 @@ class ConfirmSheetButton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
-            style: TextStyle(fontSize: 22.0, fontFamily: 'MuseoModemo', color: Colors.black87),
-
+            style: TextStyle(
+                fontSize: 22.0,
+                fontFamily: 'MuseoModemo',
+                color: Colors.black87),
           ),
         ),
       ),

@@ -23,11 +23,15 @@ class _CarListState extends State<CarList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(245, 245, 242, 1),
       body: ListView(
-        padding: const EdgeInsets.all(40),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         children: <Widget>[
           Row(
             children: [
+              SizedBox(
+                height: 45,
+              ),
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
@@ -37,79 +41,95 @@ class _CarListState extends State<CarList> {
                   // color: Colors.white,
                 ),
               ),
-              SizedBox(
-                width: 25,
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Available Cars',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-              Text('Select a car'),
             ],
+          ),
+          SizedBox(
+            height: 30,
           ),
           for (String car in widget.carlist)
             FutureBuilder(
               future: FirebaseFunctions().getOwner(car),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Card(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailsCar(
-                              docSnapshot: snapshot,
-                              rideCost: widget.cost,
-                              pickupDate: widget.pickupDate,
-                              dropOffDate: widget.dropOffDate,
-                            ),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsCar(
+                            docSnapshot: snapshot,
+                            rideCost: widget.cost,
+                            pickupDate: widget.pickupDate,
+                            dropOffDate: widget.dropOffDate,
                           ),
-                        );
-                        print(totalCost);
-                      },
-                      child: Container(
-                        width: 300,
-                        height: 200,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Image(
-                                  image: AssetImage('images/car.png'),
-                                  fit: BoxFit.cover),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 60,
-                                  ),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Image.asset('images/blackcar.png'),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
                                   Text(
-                                    'Model Name: ' + snapshot.data.modelName,
+                                    snapshot.data.modelName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14),
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
                                   Text(
-                                    'Color: ' + snapshot.data.color,
+                                    '₹' + snapshot.data.amount,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                        fontSize: 11),
                                   ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Rs.' + snapshot.data.amount,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  Text('cost of ride' + widget.cost.toString())
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
+                              Column(
+                                children: [
+                                  Text(
+                                    '₹' + widget.cost.toString(),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Ride amount',
+                                    style: TextStyle(fontSize: 11),
+                                  ),
+                                ],
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   );

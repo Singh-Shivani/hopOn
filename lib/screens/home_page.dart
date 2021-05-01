@@ -68,9 +68,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   resetApp() {
     setState(() {
       drawerOpen = true;
-      searchDetailContainerHeight = 300;
+      searchDetailContainerHeight = 280;
       rideDetailContainerHeight = 0;
-      bottomPaddingOfMap = 290;
+      bottomPaddingOfMap = 270;
 
       polylineSet.clear();
       markerSet.clear();
@@ -83,7 +83,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
     currentPosition = position;
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
 
@@ -246,17 +246,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // color: Colors.black26,
+                        CircleAvatar(
+                          radius: 40,
+                          foregroundColor: Colors.blue,
+                          backgroundImage: AssetImage(
+                            'images/ToyFaces_Colored_BG_47.jpg',
                           ),
-                          width: 50,
-                          child: Image.asset(
-                              'images/ToyFaces_Tansparent_BG_47.png'),
                         ),
                         //TODO 1: User photo should be here
-                        SizedBox(width: 40),
+                        SizedBox(width: 30),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -264,7 +262,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               future: FirebaseFunctions().getUser(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  return Text(snapshot.data.name);
+                                  return Text(
+                                    snapshot.data.name,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  );
                                 } else {
                                   return Text('Name');
                                 }
@@ -273,7 +277,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             SizedBox(height: 8),
                             Text(
                               'Visit Profile',
-                              style: TextStyle(color: Colors.black54),
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 12),
                             ),
                           ],
                         ),
@@ -294,8 +299,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: ListTile(
                   leading: Icon(Icons.electric_car_rounded),
                   title: Text(
-                    'Give car on rent',
-                    style: TextStyle(fontSize: 16),
+                    'Give my car on rent',
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
               ),
@@ -303,14 +308,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 leading: Icon(Icons.history),
                 title: Text(
                   'History',
-                  style: TextStyle(fontSize: 16),
+                  // style: TextStyle(fontSize: 16),
                 ),
               ),
               ListTile(
                 leading: Icon(Icons.info_outline_rounded),
                 title: Text(
                   'About us',
-                  style: TextStyle(fontSize: 16),
+                  // style: TextStyle(fontSize: 16),
                 ),
               ),
               GestureDetector(
@@ -327,7 +332,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   leading: Icon(Icons.logout),
                   title: Text(
                     'Sign Out',
-                    style: TextStyle(fontSize: 16),
+                    // style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../screens/owner_homePage.dart';
+
 import 'widgets.dart';
 
 class ConfirmSheet extends StatelessWidget {
-
   final String title;
   final String subtitle;
   final Function onPressed;
@@ -32,33 +31,30 @@ class ConfirmSheet extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 18),
         child: Column(
           children: [
-
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontFamily: 'MuseoModemo-ExtraLight', color: Colors.black87),
+              style: TextStyle(fontSize: 20, color: Colors.black87),
             ),
-
-            SizedBox(height: 20,),
-
+            SizedBox(
+              height: 20,
+            ),
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15, fontFamily: 'OpenSans-Regular', color: Colors.black54),
+              style: TextStyle(fontSize: 15, color: Colors.black54),
             ),
-
             SizedBox(
               height: 24,
             ),
-
             Row(
               children: [
-
                 SizedBox(width: 50),
                 GestureDetector(
-
-                  onTap: (){
+                  onTap: () {
                     Navigator.pop(context);
                   },
                   child: Expanded(
@@ -66,31 +62,27 @@ class ConfirmSheet extends StatelessWidget {
                       child: ConfirmSheetButton(
                         title: 'Back',
                         color: Colors.grey,
-
                       ),
                     ),
                   ),
                 ),
-
-                SizedBox(width: 36,),
-
+                SizedBox(
+                  width: 36,
+                ),
                 GestureDetector(
                   onTap: onPressed,
                   child: Expanded(
                     child: Container(
                       child: ConfirmSheetButton(
                         title: 'Confirm',
-                        color: (title == 'Go Online') ? Colors.green : Colors.red,
-
+                        color:
+                            (title == 'Go Online') ? Colors.green : Colors.red,
                       ),
                     ),
                   ),
                 ),
-
-
               ],
             )
-
           ],
         ),
       ),

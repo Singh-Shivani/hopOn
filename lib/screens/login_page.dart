@@ -64,11 +64,16 @@ class _LoginPageState extends State<LoginPage> {
               if (passwordController.text.length < 6) {
                 showSnackBar('Please provide a password of length more than 6');
               }
+              BuildContext dialogContext;
               showDialog(
                 context: context,
-                builder: (BuildContext context) => ProgressDialog(
-                  status: 'Logging you in...',
-                ),
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  dialogContext = context;
+                  return ProgressDialog(
+                    status: 'Logging you in...',
+                  );
+                },
               );
               context
                   .read<AuthenticationService>()
@@ -82,8 +87,10 @@ class _LoginPageState extends State<LoginPage> {
                           return HomePage();
                         }),
                       ));
+              Navigator.pop(dialogContext);
             },
-            child: CustomButton(text: 'Login', color:Colors.black, textColor: Colors.white),
+            child: CustomButton(
+                text: 'Login', ),
           ),
           Text("\nDon't have any account?"),
           GestureDetector(
@@ -115,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Padding(
-          padding: EdgeInsets.only(top: 150),
+          padding: EdgeInsets.only(top: 130),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -123,14 +130,113 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'hopOn',
                   style: TextStyle(
-                    fontSize: 50,
-                    letterSpacing: 4,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 60,
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.bold,
                     fontFamily: 'MuseoModerno',
+                    // color: Colors.white,
                   ),
                 ),
-                SizedBox(height: 100),
-                _buildLogin(),
+                SizedBox(height: 80),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      InputTextField(
+                        controller: emailIdController,
+                        label: 'Email-Id',
+                        icon: Icon(Icons.email_outlined),
+                      ),
+                      InputTextField(
+                        controller: passwordController,
+                        label: 'Password',
+                        icon: Icon(Icons.lock),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          // network connectivity
+                          var connectivityResult =
+                              await Connectivity().checkConnectivity();
+                          if (connectivityResult != ConnectivityResult.mobile &&
+                              connectivityResult != ConnectivityResult.wifi) {
+                            showSnackBar('No Internet connectivity');
+                            return;
+                          }
+
+                          if (!emailIdController.text.contains('@')) {
+                            showSnackBar(
+                                'Please provide a valid email address');
+                          }
+
+                          if (passwordController.text.length < 6) {
+                            showSnackBar(
+                                'Please provide a password of length more than 6');
+                          }
+                          BuildContext dialogContext;
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              dialogContext = context;
+                              return ProgressDialog(
+                                status: 'Logging you in...',
+                              );
+                            },
+                          );
+                          context
+                              .read<AuthenticationService>()
+                              .signIn(
+                                email: emailIdController.text.trim(),
+                                password: passwordController.text.trim(),
+                              )
+                              .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) {
+                                      return HomePage();
+                                    }),
+                                  ));
+                          Navigator.pop(dialogContext);
+                        },
+                        child: CustomButton(
+                            text: 'Login',
+                            ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) {
+                              return SignUpPage();
+                            }),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have any account?\t",
+                              style: TextStyle(fontSize: 10),
+                            ),
+                            Text(
+                              'SignUp here',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

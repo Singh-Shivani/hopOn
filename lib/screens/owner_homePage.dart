@@ -107,33 +107,44 @@ class _DisplayMapState extends State<DisplayMap> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            // color: Colors.black26,
-                          ),
-                          width: 40,
-                          child: Image.asset('images/ToyFaces_Tansparent_BG_47.png'),
-                        ),
-                        //TODO 1: User photo should be here
-                        SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            FutureBuilder<AppUser>(
-                              future: FirebaseFunctions().getUser(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Text(snapshot.data.name);
-                                } else {
-                                  return Text('Name');
-                                }
-                              },
+                            CircleAvatar(
+                              radius: 40,
+                              foregroundColor: Colors.blue,
+                              backgroundImage: AssetImage(
+                                'images/ToyFaces_Colored_BG_47.jpg',
+                              ),
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Visit Profile',
-                              style: TextStyle(color: Colors.black54),
+                            //TODO 1: User photo should be here
+                            SizedBox(width: 20),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FutureBuilder<AppUser>(
+                                  future: FirebaseFunctions().getUser(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data.name,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                                    } else {
+                                      return Text('Name');
+                                    }
+                                  },
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Visit Profile',
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 12),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -150,10 +161,10 @@ class _DisplayMapState extends State<DisplayMap> {
                   }));
                 },
                 child: ListTile(
-                  leading: Icon(Icons.home),
+                  leading: Icon(Icons.car_rental),
                   title: Text(
-                    'Home Page',
-                    style: TextStyle(fontSize: 16),
+                    'Book a ride',
+                    // style: TextStyle(fontSize: 1),
                   ),
                 ),
               ),
@@ -165,10 +176,10 @@ class _DisplayMapState extends State<DisplayMap> {
                   }));
                 },
                 child: ListTile(
-                  leading: Icon(Icons.electric_car_rounded),
+                  leading: Icon(Icons.car_rental),
                   title: Text(
-                    'Register',
-                    style: TextStyle(fontSize: 16),
+                    'Register your car',
+                    // style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
@@ -186,7 +197,7 @@ class _DisplayMapState extends State<DisplayMap> {
                   leading: Icon(Icons.logout),
                   title: Text(
                     'Sign Out',
-                    style: TextStyle(fontSize: 16),
+                    // style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),

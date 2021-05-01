@@ -48,7 +48,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
             key: _formKey,
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -98,8 +98,33 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     //     ),
                     //   ),
                     // ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          height: 45,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            // color: Colors.white,
+                          ),
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              'Complete Profile',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
                     SizedBox(
-                      height: 0.03 * deviceSize.height,
+                      height: 20,
                     ),
                     InputFormField(
                       fieldName: 'Name',
@@ -207,8 +232,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                         }
                       },
                       child: CustomButton(
-                        text: 'Save',color:Colors.black, textColor: Colors.white
-                      ),
+                          text: 'Save',
+                          ),
                     ),
                   ],
                 ),

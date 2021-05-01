@@ -42,6 +42,17 @@ class _SignUpPageState extends State<SignUpPage> {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
           child: Column(
             children: [
+              Text(
+                'hopOn',
+                style: TextStyle(
+                  fontSize: 50,
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MuseoModerno',
+                  // color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 30),
               InputTextField(
                 controller: emailIdController,
                 label: 'Email-Id',
@@ -70,12 +81,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     showSnackBar('No Internet connectivity');
                     return;
                   }
+                  BuildContext dialogContext;
                   showDialog(
                     context: context,
-                    builder: (BuildContext context) => ProgressDialog(
-                      status: 'Registering you... \n'
-                          'Please Wait',
-                    ),
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      dialogContext = context;
+                      return ProgressDialog(
+                        status: 'Registering you\nPlease wait',
+                      );
+                    },
                   );
 
                   context
@@ -92,10 +107,15 @@ class _SignUpPageState extends State<SignUpPage> {
                           }),
                         ),
                       );
+                  Navigator.pop(dialogContext);
                 },
-                child: CustomButton(text: 'Sign Up', color:Colors.black, textColor: Colors.white),
+                child: CustomButton(
+                    text: 'Sign Up',
+                    ),
               ),
-              Text('\nAlready a registered user?'),
+              SizedBox(
+                height: 20,
+              ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -105,9 +125,19 @@ class _SignUpPageState extends State<SignUpPage> {
                     }),
                   );
                 },
-                child: Text(
-                  'Login here',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already a registered user?\t',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                    Text(
+                      'Login here',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(

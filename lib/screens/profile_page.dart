@@ -98,15 +98,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       leading: Icon(Icons.money_rounded),
                       title: Text(
                         'My Earnings',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 14),
                       ),
                       trailing: Icon(Icons.arrow_forward_ios_rounded),
                     ),
                     ListTile(
-                      leading: Icon(Icons.electric_car_rounded),
+                      leading: Icon(Icons.car_rental),
                       title: Text(
                         'My Rides',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 14),
                       ),
                       trailing: Icon(Icons.arrow_forward_ios_rounded),
                     ),
@@ -132,13 +132,12 @@ class ProfileData extends StatelessWidget {
       physics: BouncingScrollPhysics(),
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              // color: Colors.black26,
+          CircleAvatar(
+            radius: 60,
+            foregroundColor: Colors.blue,
+            backgroundImage: AssetImage(
+              'images/ToyFaces_Colored_BG_47.jpg',
             ),
-            width: 60,
-            child: Image.asset('images/ToyFaces_Tansparent_BG_47.png'),
           ),
           SizedBox(
             height: 20,
@@ -178,40 +177,6 @@ class ProfileData extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class BottomBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            width: 300,
-            child: Text('hii'),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(5),
-                topRight: Radius.circular(5),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black54,
-                  blurRadius: 16,
-                  spreadRadius: 0.2,
-                  offset: Offset(1, 1),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -27,130 +27,200 @@ class _DetailsCarState extends State<DetailsCar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_rounded,
-                  // color: Colors.white,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Color.fromRGBO(235, 235, 240, 1),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(40),
+                  bottomLeft: Radius.circular(40),
                 ),
               ),
-              SizedBox(
-                width: 25,
-              ),
-              Text('Select a car'),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Image(
-                    image: AssetImage('images/car.png'), fit: BoxFit.cover),
-              ),
-              Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                  children: <Widget>[
-                    Text(
-                      'Model Name',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(40),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            size: 20,
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 20,
                     ),
                     Text(
                       widget.docSnapshot.data.modelName,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: Container(
-                margin: EdgeInsets.only(top: 30),
-                height: 300,
-                color: Colors.white,
-                width: MediaQuery.of(context).size.width,
-                child: ListView(
-                  children: [
-                    Data(
-                      carTitle: 'Owner Name  : ',
-                      carInfo: widget.docSnapshot.data.ownerName,
+                    Text(
+                      widget.docSnapshot.data.ownerName.toUpperCase(),
+                      style: TextStyle(
+                        color: Color.fromRGBO(27, 34, 46, 1),
+                        fontSize: 12,
+                        letterSpacing: 1,
+                      ),
                     ),
-                    Data(
-                      carTitle: 'Owner email ID  : ',
-                      carInfo: widget.docSnapshot.data.ownerEmail,
+                    SizedBox(
+                      height: 20,
                     ),
-                    Data(
-                      carTitle: 'Vehicle Color  : ',
-                      carInfo: widget.docSnapshot.data.color,
-                    ),
-                    Data(
-                      carTitle: 'Vehicle Number  : ',
-                      carInfo: widget.docSnapshot.data.vehicleNumber,
-                    ),
-                    Data(
-                      carTitle: 'Car rent  : ',
-                      carInfo: 'Rs. ' + widget.docSnapshot.data.amount,
-                    ),
-                    Data(
-                      carTitle: 'Ride Cost : ',
-                      carInfo: widget.rideCost.toString(),
-                    ),
-                    Data(
-                      carTitle: 'Total Cost : ',
-                      carInfo: (widget.rideCost +
-                              (int.parse(widget.docSnapshot.data.amount)))
-                          .toString(),
-                    ),
-                    Data(
-                      carTitle: 'PickUp Date ',
-                      carInfo: widget.pickupDate,
-                    ),
-                    Data(
-                      carTitle: 'DropOff Date',
-                      carInfo: widget.dropOffDate,
+                    Image.asset(
+                      'images/blackcar.png',
+                      width: MediaQuery.of(context).size.width,
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PaymentPage(
-                    amount: (widget.rideCost +
-                            (int.parse(widget.docSnapshot.data.amount)))
-                        .toString(),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'SPECIFICATIONS',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   ),
-                ),
-              );
-            },
-            child: CustomButton(
-                text: 'Pay', color: Colors.black, textColor: Colors.white),
-          )
-        ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SpecificationWidget(
+                        text: '₹ ' + widget.docSnapshot.data.amount,
+                        helpText: 'Car rent',
+                      ),
+                      SpecificationWidget(
+                        text: '₹ ' + widget.rideCost.toString(),
+                        helpText: 'Your ride cost',
+                      ),
+                      SpecificationWidget(
+                        text: '₹ ' +
+                            (widget.rideCost +
+                                    (int.parse(widget.docSnapshot.data.amount)))
+                                .toString(),
+                        helpText: 'Total cost',
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SpecificationWidget(
+                        text: widget.docSnapshot.data.color,
+                        helpText: "Car's Color",
+                      ),
+                      SpecificationWidget(
+                        text: widget.pickupDate,
+                        helpText: 'Pickup date',
+                      ),
+                      SpecificationWidget(
+                        text: widget.dropOffDate,
+                        helpText: 'DropOff date',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PaymentPage(
+                        amount: (widget.rideCost +
+                                (int.parse(widget.docSnapshot.data.amount)))
+                            .toString(),
+                      ),
+                    ),
+                  );
+                },
+                child: CustomButton(
+                    text: 'Pay',),
+              ),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class SpecificationWidget extends StatelessWidget {
+  final String helpText;
+  final String text;
+
+  SpecificationWidget({@required this.text, @required this.helpText});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          text,
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 6,
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(246, 246, 246, 1),
+            borderRadius: BorderRadius.all(
+              Radius.circular(6),
+            ),
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              helpText,
+              style: TextStyle(fontSize: 10, color: Colors.black54),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

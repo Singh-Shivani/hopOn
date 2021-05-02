@@ -12,6 +12,7 @@ class ConfirmSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 250,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -26,18 +27,14 @@ class ConfirmSheet extends StatelessWidget {
           ),
         ],
       ),
-      height: 220,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 18),
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: Column(
           children: [
-            SizedBox(
-              height: 10,
-            ),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+              style: TextStyle(fontSize: 20, color: Colors.black),
             ),
             SizedBox(
               height: 20,
@@ -45,14 +42,14 @@ class ConfirmSheet extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 15, color: Colors.black54),
+              style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             SizedBox(
-              height: 24,
+              height: 20,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(width: 50),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -66,17 +63,15 @@ class ConfirmSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 36,
-                ),
                 GestureDetector(
                   onTap: onPressed,
                   child: Expanded(
                     child: Container(
                       child: ConfirmSheetButton(
-                        title: 'Confirm',
-                        color:
-                            (title == 'Go Online') ? Colors.green : Colors.red,
+                        title: 'Yes!',
+                        color: (title == 'Give on rent')
+                            ? Colors.green
+                            : Colors.red,
                       ),
                     ),
                   ),

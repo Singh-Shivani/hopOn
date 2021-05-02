@@ -60,8 +60,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     await getPlaceDirection();
     setState(() {
       searchDetailContainerHeight = 0;
-      rideDetailContainerHeight = 320;
-      bottomPaddingOfMap = 310;
+      rideDetailContainerHeight = 330;
+      bottomPaddingOfMap = 320;
       drawerOpen = false;
     });
   }
@@ -298,7 +298,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   );
                 },
                 child: ListTile(
-                  leading: Icon(Icons.electric_car_rounded),
+                  leading: Icon(Icons.directions_car_rounded),
                   title: Text(
                     'Give my car on rent',
                     style: TextStyle(fontSize: 14),
@@ -448,7 +448,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         style: TextStyle(fontSize: 13),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       GestureDetector(
                         onTap: () async {
@@ -465,14 +465,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         },
                         child: Container(
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Row(
                               children: [
                                 Icon(Icons.search),
                                 Text(
-                                  '\tDrop off location',
+                                  '\t\tDrop off location',
                                   style: TextStyle(
-                                      fontSize: 13, color: Colors.black54),
+                                      fontSize: 14, color: Colors.black54),
                                 ),
                               ],
                             ),
@@ -494,7 +494,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 20,
                       ),
                       Container(
                         child: Row(
@@ -616,42 +616,49 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        ((initialLocation != '') ? initialLocation : ''),
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ((initialLocation != '') ? initialLocation : ''),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text('To'),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        ((finalDestination != '') ? finalDestination : ''),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                        SizedBox(
+                          height: 5,
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Center(
-                        child: Row(
+                        Text('To'),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          ((finalDestination != '') ? finalDestination : ''),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Row(
                               children: [
-                                Text('Total Ride - \t'),
+                                Text(
+                                  'Total Ride - \t',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                  ),
+                                ),
                                 Text(
                                   ((tripDirectionDetails != null)
                                       ? tripDirectionDetails.distanceText
@@ -664,10 +671,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                             Row(
                               children: [
-                                Text('Cost of Ride - \t'),
+                                Text(
+                                  'Cost of Ride - \t',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                  ),
+                                ),
                                 Text(
                                   ((tripDirectionDetails != null)
-                                      ? 'Rs. ${AssistantMethods.calculateFares(tripDirectionDetails)}'
+                                      ? '₹ ${AssistantMethods.calculateFares(tripDirectionDetails)}'
                                       : ''),
                                   style: TextStyle(
                                       fontSize: 14,
@@ -677,84 +689,136 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${selectedPickupDate.toLocal()}".split(' ')[0],
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 20.0,
-                          ),
-                          ElevatedButton(
-                            onPressed: () =>
-                                _selectPickupDate(context), // Refer step 3
-                            child: Text(
-                              'Select Pickup date',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            // color: Colors.greenAccent,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${selectedDropOffDate.toLocal()}".split(' ')[0],
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 20.0,
-                          ),
-                          ElevatedButton(
-                            onPressed: () => _selectDropOffDate(context),
-                            child: Text(
-                              'Select DropOff date',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            // color: Colors.greenAccent,
-                          ),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return CarList(
-                                carlist: nearbyCarId,
-                                cost: ((tripDirectionDetails != null)
-                                    ? AssistantMethods.calculateFares(
-                                        tripDirectionDetails)
-                                    : 0),
-                                pickupDate: "${selectedPickupDate.toLocal()}"
-                                    .split(' ')[0],
-                                dropOffDate: "${selectedDropOffDate.toLocal()}"
-                                    .split(' ')[0],
-                              );
-                            }),
-                          );
-                        },
-                        child: CustomButton(
-                          text: 'Next',
+                        Divider(),
+                        SizedBox(
+                          height: 20,
                         ),
-                      ),
-                    ],
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "${selectedPickupDate.toLocal()}"
+                                      .split(' ')[0],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    _selectPickupDate(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 10,
+                                        ),
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Select PickUp Date',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "${selectedDropOffDate.toLocal()}"
+                                      .split(' ')[0],
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    _selectDropOffDate(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 12),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 10,
+                                        ),
+                                      ],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Select DropOff Date',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return CarList(
+                                  carlist: nearbyCarId,
+                                  cost: ((tripDirectionDetails != null)
+                                      ? AssistantMethods.calculateFares(
+                                          tripDirectionDetails)
+                                      : 0),
+                                  pickupDate: "${selectedPickupDate.toLocal()}"
+                                      .split(' ')[0],
+                                  dropOffDate:
+                                      "${selectedDropOffDate.toLocal()}"
+                                          .split(' ')[0],
+                                );
+                              }),
+                            );
+                          },
+                          child: CustomButton(
+                            text: 'Next',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

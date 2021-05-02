@@ -19,7 +19,6 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
 
   List<PlacePrediction> placePredictionList = [];
 
-
   @override
   Widget build(BuildContext context) {
     String placeAddress =
@@ -28,102 +27,60 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
     pickUpTextEditingController.text = placeAddress;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromRGBO(245, 245, 242, 1),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
+              height: MediaQuery.of(context).size.height * 0.5,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40, left: 20),
-                    child: Stack(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back_rounded,
-                            size: 30,
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            'Search drop off location',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  CustomBackButton(pageHeader: 'Seach dropOff location'),
                   SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        // Icon(Icons.add_location),
-                        SizedBox(width: 10),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              controller: pickUpTextEditingController,
-                              decoration: InputDecoration(
-                                labelText: 'Pick up location',
-                              ),
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.black54),
-                            ),
-                          ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: pickUpTextEditingController,
+                        decoration: InputDecoration(
+                          labelText: 'Pick up location',
                         ),
-                      ],
+                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        // Icon(Icons.add_location),
-                        SizedBox(width: 10),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              onChanged: (val) {
-                                findPlace(val);
-                              },
-                              controller: dropOffTextEditingController,
-                              decoration: InputDecoration(
-                                labelText: '\tWhere to?',
-                              ),
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.black54),
-                            ),
-                          ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        onChanged: (val) {
+                          findPlace(val);
+                        },
+                        controller: dropOffTextEditingController,
+                        decoration: InputDecoration(
+                          labelText: '\tWhere to?',
                         ),
-                      ],
+                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
 
                   //CALENDAR
-
                 ],
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black,
-                    offset: Offset(0.7, 0.7),
-                    spreadRadius: 0.5,
-                    blurRadius: 3,
+                    color: Colors.grey,
+                    blurRadius: 10,
                   ),
                 ],
               ),
@@ -134,7 +91,7 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
             //tile for place prediction
             (placePredictionList.length > 0)
                 ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     child: ListView.separated(
                       padding: EdgeInsets.all(0),
                       itemBuilder: (context, index) {
@@ -154,6 +111,10 @@ class _SearchDropOffLocationState extends State<SearchDropOffLocation> {
                     ),
                   )
                 : Container(),
+
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

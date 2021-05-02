@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
+import 'package:vehicle_sharing_app/widgets/widgets.dart';
+
 import '../services/firebase_services.dart';
 import 'car_details.dart';
 
@@ -25,31 +27,11 @@ class _CarListState extends State<CarList> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 245, 242, 1),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         children: <Widget>[
-          Row(
-            children: [
-              SizedBox(
-                height: 45,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_rounded,
-                  // color: Colors.white,
-                ),
-              ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    'Available Cars',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
+          CustomBackButton(
+            pageHeader: 'Available Cars',
           ),
           SizedBox(
             height: 30,
@@ -76,7 +58,7 @@ class _CarListState extends State<CarList> {
                     },
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       margin: EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -96,16 +78,16 @@ class _CarListState extends State<CarList> {
                               Column(
                                 children: [
                                   Text(
-                                    snapshot.data.modelName,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  Text(
                                     '₹' + snapshot.data.amount,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 11),
+                                        fontSize: 15),
+                                  ),
+                                  Text(
+                                    snapshot.data.modelName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10),
                                   ),
                                 ],
                               ),
@@ -114,13 +96,13 @@ class _CarListState extends State<CarList> {
                                   Text(
                                     '₹' + widget.cost.toString(),
                                     style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
                                     'Ride amount',
-                                    style: TextStyle(fontSize: 11),
+                                    style: TextStyle(fontSize: 10),
                                   ),
                                 ],
                               ),

@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
+import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/ride_history_page.dart';
-import 'package:vehicle_sharing_app/globalvariables.dart';
 
 class PaymentPage extends StatefulWidget {
   final String amount;
@@ -14,8 +13,11 @@ class PaymentPage extends StatefulWidget {
   final String pickupDate;
   final String dropOffDate;
 
-  PaymentPage({@required this.amount,@required this.docSnapshot, @required this.pickupDate,
-    @required this.dropOffDate});
+  PaymentPage(
+      {@required this.amount,
+      @required this.docSnapshot,
+      @required this.pickupDate,
+      @required this.dropOffDate});
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
@@ -49,35 +51,30 @@ class _PaymentPageState extends State<PaymentPage> {
     Toast.show('Payment Successful', context);
     print('handlerPaymentSuccess');
     saveHistory();
-
   }
 
-  void saveHistory(){
+  void saveHistory() {
     DatabaseReference dbref = FirebaseDatabase.instance
         .reference()
         .child('user_history/${currentFirebaseUser.uid}/$bookedCar');
 
     Map historyMap = {
-      'ownerId' : bookedCar,
-      'modelName' : widget.docSnapshot.data.modelName,
+      'ownerId': bookedCar,
+      'modelName': widget.docSnapshot.data.modelName,
       'color': widget.docSnapshot.data.color,
-      'ownerName' :  widget.docSnapshot.data.ownerName,
-      'vehicleNumber' : widget.docSnapshot.data.vehicleNumber,
-      'amount' : widget.amount,
-      'pickupDate' :  widget.pickupDate,
-      'dropofDate' : widget.dropOffDate
-
+      'ownerName': widget.docSnapshot.data.ownerName,
+      'vehicleNumber': widget.docSnapshot.data.vehicleNumber,
+      'amount': widget.amount,
+      'pickupDate': widget.pickupDate,
+      'dropofDate': widget.dropOffDate
     };
 
-    dbref.set(historyMap);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => RideHistory(),
-      ),
-    );
-
+    dbref.set(historyMap).then((value) => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RideHistory(),
+          ),
+        ));
   }
 
   void handlerErrorFailure() {
@@ -112,14 +109,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          // TextFormField(
-          //   initialValue: widget.amount,
-          // ),
-        ],
-      ),
-    );
+    return Scaffold();
   }
 }

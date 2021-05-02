@@ -27,7 +27,7 @@ class CustomButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -203,9 +203,7 @@ class AvailabilityButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 220,
-      height: 70,
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -215,7 +213,7 @@ class AvailabilityButton extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
-          fontSize: 25,
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -235,22 +233,70 @@ class ConfirmSheetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(30),
+        ),
       ),
       child: Container(
-        height: 50.0,
+        // height: 50.0,
         child: Center(
           child: Text(
             title,
             style: TextStyle(
-                fontSize: 22.0,
-                fontFamily: 'MuseoModemo',
-                color: Colors.black87),
+                fontSize: 20.0, fontFamily: 'MuseoModemo', color: Colors.black),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CustomBackButton extends StatelessWidget {
+  final String pageHeader;
+  CustomBackButton({@required this.pageHeader});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(40),
+                ),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.arrow_back_rounded,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                pageHeader,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

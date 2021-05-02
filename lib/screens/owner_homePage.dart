@@ -53,7 +53,7 @@ class _DisplayMapState extends State<DisplayMap> {
   var locationOptions = LocationOptions(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
 
-  String availabilityText = 'Go Online';
+  String availabilityText = 'Give on rent';
   Color availabilityColor = Colors.black;
   bool isAvailable = false;
   String exist = 'donotexist';
@@ -161,7 +161,7 @@ class _DisplayMapState extends State<DisplayMap> {
                   }));
                 },
                 child: ListTile(
-                  leading: Icon(Icons.car_rental),
+                  leading: Icon(Icons.directions_car_rounded),
                   title: Text(
                     'Book a ride',
                     // style: TextStyle(fontSize: 1),
@@ -176,7 +176,7 @@ class _DisplayMapState extends State<DisplayMap> {
                   }));
                 },
                 child: ListTile(
-                  leading: Icon(Icons.car_rental),
+                  leading: Icon(Icons.card_membership_rounded),
                   title: Text(
                     'Register your car',
                     // style: TextStyle(fontSize: 16),
@@ -290,11 +290,11 @@ class _DisplayMapState extends State<DisplayMap> {
                               context: context,
                               builder: (BuildContext context) => ConfirmSheet(
                                     title: (!isAvailable)
-                                        ? 'Go Online'
-                                        : 'Go Offline',
+                                        ? 'Give on rent'
+                                        : 'Remove from rent',
                                     subtitle: (!isAvailable)
-                                        ? 'You are about to go online'
-                                        : 'You are about to go offline',
+                                        ? 'Give your car\navailable for rent'
+                                        : 'Remove your car\nfrom available cars for rent',
                                     onPressed: () {
                                       if (!isAvailable) {
                                         goOnline();
@@ -302,7 +302,7 @@ class _DisplayMapState extends State<DisplayMap> {
                                         Navigator.pop(context);
                                         setState(() {
                                           availabilityColor = Colors.green;
-                                          availabilityText = 'Go Offline';
+                                          availabilityText = 'Remove from rent';
                                           isAvailable = true;
                                         });
                                       } else {
@@ -310,7 +310,7 @@ class _DisplayMapState extends State<DisplayMap> {
                                         Navigator.pop(context);
                                         setState(() {
                                           availabilityColor = Colors.black;
-                                          availabilityText = 'Go Online';
+                                          availabilityText = 'Give on rent';
                                           isAvailable = false;
                                         });
                                       }

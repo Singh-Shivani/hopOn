@@ -45,32 +45,8 @@ class _DetailsCarState extends State<DetailsCar> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(40),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.arrow_back_rounded,
-                            size: 20,
-                          ),
-                        ),
-                      ),
+                    CustomBackButton(
+                      pageHeader: '',
                     ),
                     SizedBox(
                       height: 20,
@@ -181,7 +157,8 @@ class _DetailsCarState extends State<DetailsCar> {
                   );
                 },
                 child: CustomButton(
-                    text: 'Pay',),
+                  text: 'Pay',
+                ),
               ),
             ),
           ],

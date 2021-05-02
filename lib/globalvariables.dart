@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 
 Position currentPosition;
 
+String bookedCar;
+
 User currentFirebaseUser = FirebaseAuth.instance.currentUser;
 
 DatabaseReference tripRequestRef;

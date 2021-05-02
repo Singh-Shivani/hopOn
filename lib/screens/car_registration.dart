@@ -121,7 +121,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                     InputFormField(
                       fieldName: 'Rent amount',
                       obscure: false,
-                      // validator: ValidationService().aadharNumberValidator,
+                      validator: ValidationService().aadharNumberValidator,
                       controller: _rentAmount,
                     ),
                     SizedBox(

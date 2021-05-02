@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:vehicle_sharing_app/globalvariables.dart';
 import '../services/firebase_services.dart';
 import 'car_details.dart';
 
@@ -61,6 +61,7 @@ class _CarListState extends State<CarList> {
                 if (snapshot.hasData) {
                   return GestureDetector(
                     onTap: () {
+                      bookedCar = car;
                       Navigator.push(
                         context,
                         MaterialPageRoute(

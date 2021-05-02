@@ -170,9 +170,12 @@ class _DetailsCarState extends State<DetailsCar> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PaymentPage(
+                        docSnapshot: widget.docSnapshot,
                         amount: (widget.rideCost +
                                 (int.parse(widget.docSnapshot.data.amount)))
                             .toString(),
+                        pickupDate: widget.pickupDate,
+                        dropOffDate: widget.dropOffDate,
                       ),
                     ),
                   );

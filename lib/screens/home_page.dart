@@ -13,6 +13,7 @@ import 'package:vehicle_sharing_app/models/directionDetails.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/car_list.dart';
 import 'package:vehicle_sharing_app/screens/profile_page.dart';
+import 'package:vehicle_sharing_app/screens/ride_history_page.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
@@ -304,13 +305,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              ListTile(
-                leading: Icon(Icons.history),
-                title: Text(
-                  'History',
-                  // style: TextStyle(fontSize: 16),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) {
+                      return RideHistory();
+                    }),
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text(
+                    'History',
+                    // style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
+
               ListTile(
                 leading: Icon(Icons.info_outline_rounded),
                 title: Text(

@@ -68,39 +68,10 @@ class _RideHistoryState extends State<RideHistory> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      'Model Name: ' + lists[index]["modelName"],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Color: ' + lists[index]["color"],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Vehicle Number: ' + lists[index]["vehicleNumber"],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Owner Name: ' +lists[index]["ownerName"],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
+                                    Info(infoText: 'Model Name: ', infoData: lists[index]["modelName"],),
+                                    Info(infoText: 'Color: ', infoData: lists[index]["color"],),
+                                    Info(infoText: 'Vehicle Number: ', infoData: lists[index]["vehicleNumber"],),
+                                    Info(infoText: 'Owner Name: ', infoData: lists[index]["ownerName"],),
                                     SizedBox(
                                       height: 5,
                                     ),
@@ -110,6 +81,7 @@ class _RideHistoryState extends State<RideHistory> {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                     ),
+
                                     SizedBox(
                                       height: 5,
                                     ),
@@ -119,8 +91,10 @@ class _RideHistoryState extends State<RideHistory> {
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                     ),
+
+
                                     SizedBox(
-                                      height: 15,
+                                      height: 10,
                                     ),
 
                                     GestureDetector(
@@ -140,7 +114,7 @@ class _RideHistoryState extends State<RideHistory> {
                                       },
                                       child: Text(
                                         'Cancel Ride',
-                                        style: TextStyle(color:Colors.red, fontWeight: FontWeight.bold, fontSize: 14),
+                                        style: TextStyle(color:Colors.red, fontWeight: FontWeight.bold, fontSize: 16),
                                       ),
                                     ),
                                   ],
@@ -163,6 +137,57 @@ class _RideHistoryState extends State<RideHistory> {
             )
           ],
       ),
+    );
+  }
+}
+
+class Info extends StatelessWidget {
+  final String infoText;
+  final String infoData;
+
+  Info({this.infoText, this.infoData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+         Expanded(
+              child:Text(
+              infoText,
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+              ),
+            ),
+         ),
+            Expanded(
+              child:Text(
+                ':',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+
+            Expanded(
+              child: Text(
+                infoData,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+      ],
     );
   }
 }

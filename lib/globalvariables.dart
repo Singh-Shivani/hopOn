@@ -6,10 +6,7 @@ import 'package:geolocator/geolocator.dart';
 
 Position currentPosition;
 
-String availabilityText = 'Give on rent';
-Color availabilityColor = Colors.black;
-bool isAvailable = false;
-String exist = 'donotexist';
+
 
 // String bookedCar;
 

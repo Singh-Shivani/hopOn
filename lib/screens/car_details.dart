@@ -75,8 +75,8 @@ class _DetailsCarState extends State<DetailsCar> {
                     SizedBox(
                       height: 20,
                     ),
-                    Image.asset(
-                      'images/blackcar.png',
+                    Image.network(
+                      widget.docSnapshot.data.vehicleImg,
                       width: MediaQuery.of(context).size.width,
                     ),
                   ],

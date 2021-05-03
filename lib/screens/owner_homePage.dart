@@ -165,6 +165,7 @@ class _DisplayMapState extends State<DisplayMap> {
                 ),
               ),
 
+
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {

@@ -43,6 +43,7 @@ class VehicleUser {
   String vehicleNumber;
   String ownerName;
   String color;
+  String vehicleImg;
   String aadharNumber;
   bool hasCompletedRegistration = false;
   String amount;
@@ -56,6 +57,7 @@ class VehicleUser {
       'vehicleNumber': vehicleNumber,
       'ownerName': ownerName,
       'color': color,
+      'vehicleImg' : vehicleImg,
       'aadharNumber': aadharNumber,
       'hasCompletedRegistration': hasCompletedRegistration,
       'amount': amount,
@@ -68,6 +70,7 @@ class VehicleUser {
     vehicleNumber = data['vehicleNumber'];
     ownerName = data['ownerName'];
     color = data['color'];
+    vehicleImg = data['vehicleImg'];
     aadharNumber = data['aadharNumber'];
     hasCompletedRegistration = data['hasCompletedRegistration'];
     amount = data['amount'];

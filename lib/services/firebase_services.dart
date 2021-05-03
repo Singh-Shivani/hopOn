@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
+import 'dart:io';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as path;
+import 'package:flutter/widgets.dart';
+
 
 class FirebaseFunctions {
   final CollectionReference collectionReference =
@@ -51,21 +57,55 @@ class FirebaseFunctions {
     }
   }
 
-  Future<String> uploadVehicleInfo(Map<String, dynamic> data) async {
-    String isRegistered;
-    User currentUser = FirebaseAuth.instance.currentUser;
-    currentFirebaseUser = currentUser;
-    CollectionReference collectionReference = FirebaseFirestore.instance
-        .collection('users/${currentUser.uid}/vehicle_details');
 
-    await collectionReference
-        .doc(currentUser.uid)
-        .set(data)
-        .then((_) => isRegistered = 'true')
-        // ignore: return_of_invalid_type_from_catch_error
-        .catchError((e) => isRegistered = e.message);
-    print(isRegistered);
-    return isRegistered;
+  //upload image
+
+  Future<String> uploadVehicleInfo(Map<String, dynamic> data, File localFile, BuildContext context) async {
+    if (localFile != null) {
+      print('uploading img file');
+
+      var fileExtension = path.extension(localFile.path);
+      print(fileExtension);
+
+      var uuid = Uuid().v4();
+
+      final Reference firebaseStorageRef =
+      FirebaseStorage.instance.ref().child('images/$uuid$fileExtension');
+
+      UploadTask task = firebaseStorageRef.putFile(localFile);
+
+      TaskSnapshot taskSnapshot = await task;
+
+      String url = await taskSnapshot.ref.getDownloadURL();
+      print('dw url $url');
+      if (url != null) {
+        print(url);
+        try {
+          data['vehicleImg'] = url;
+          print(data['vehicleImg']);
+        } catch (e) {
+          print(e);
+        }
+      }
+    }
+
+    print(data);
+
+      String isRegistered;
+      User currentUser = FirebaseAuth.instance.currentUser;
+      currentFirebaseUser = currentUser;
+      CollectionReference collectionReference = FirebaseFirestore.instance
+          .collection('users/${currentUser.uid}/vehicle_details');
+
+      await collectionReference
+          .doc(currentUser.uid)
+          .set(data)
+          .then((_) => isRegistered = 'true')
+      // ignore: return_of_invalid_type_from_catch_error
+          .catchError((e) => isRegistered = e.message);
+      print(isRegistered);
+      return isRegistered;
+
   }
 
   Future<VehicleUser> getOwner(String key) async {

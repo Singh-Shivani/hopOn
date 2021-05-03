@@ -3,6 +3,7 @@ import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/owner_homePage.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/validation_services.dart';
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
@@ -22,6 +23,24 @@ class _VehicleDetailsState extends State<VehicleDetails> {
   TextEditingController _rentAmount = TextEditingController();
 
   VehicleUser owner = VehicleUser();
+  File imageFile;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final selected = await ImagePicker().getImage(source: source);
+    setState(() {
+      imageFile = File(selected.path);
+    });
+  }
+
+  void _clear() {
+    setState(() {
+      imageFile = null;
+    });
+  }
+
+  // _save() async {
+  //   FirebaseFunctions().uploadFoodAndImages(owner, imageFile, context);
+  // }
 
   FirebaseFunctions firebaseFunctions = FirebaseFunctions();
 
@@ -73,6 +92,49 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                     ),
                     SizedBox(
                       height: 20,
+                    ),
+                    ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        imageFile != null
+                            ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 20,
+                                child: Image.file(
+                                  imageFile,
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                FlatButton(
+                                  child: Icon(Icons.refresh),
+                                  onPressed: _clear,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                            : GestureDetector(
+                          onTap: () {
+                            _pickImage(ImageSource.gallery);
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 200,
+                            child: Image.asset(
+                              'images/car.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     InputFormField(
                       fieldName: 'Model Name',
@@ -134,7 +196,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                             SnackBar(content: Text('Processing')));
                         initVehicleUser();
                         String isComplete = await firebaseFunctions
-                            .uploadVehicleInfo(owner.toMap());
+                            .uploadVehicleInfo(owner.toMap(), imageFile, context);
                         if (isComplete == 'true') {
                           await Navigator.push(
                             context,

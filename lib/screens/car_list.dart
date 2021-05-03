@@ -73,7 +73,7 @@ class _CarListState extends State<CarList> {
                       ),
                       child: Column(
                         children: <Widget>[
-                          Image.asset('images/blackcar.png'),
+                          Image.network(snapshot.data.vehicleImg),
                           SizedBox(
                             height: 20,
                           ),

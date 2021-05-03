@@ -6,10 +6,15 @@ import 'package:toast/toast.dart';
 import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/ride_history_page.dart';
+import '../services/firebase_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PaymentPage extends StatefulWidget {
   final String amount;
   final AsyncSnapshot<VehicleUser> docSnapshot;
+  String finalDestination;
+  String initialLocation;
   final String bookedCar;
   final String pickupDate;
   final String dropOffDate;
@@ -18,6 +23,8 @@ class PaymentPage extends StatefulWidget {
       {@required this.amount,
       @required this.bookedCar,
       @required this.docSnapshot,
+        @required this.finalDestination,
+        @required this.initialLocation,
       @required this.pickupDate,
       @required this.dropOffDate});
   @override
@@ -69,6 +76,8 @@ class _PaymentPageState extends State<PaymentPage> {
       'ownerName': widget.docSnapshot.data.ownerName,
       'vehicleNumber': widget.docSnapshot.data.vehicleNumber,
       'amount': widget.amount,
+      'pickUp' : widget.initialLocation,
+      'dropOff' : widget.finalDestination,
       'pickupDate': widget.pickupDate,
       'dropofDate': widget.dropOffDate
     };
@@ -81,26 +90,30 @@ class _PaymentPageState extends State<PaymentPage> {
         ));
   }
 
-  // void saveOwnerHistory(){
-  //   Future<AppUser> snapshot = FirebaseFunctions().getUser();
-  //   print(snapshot);
-  //   DatabaseReference dbref = FirebaseDatabase.instance
-  //       .reference()
-  //       .child('owner_history/${widget.bookedCar}/${currentFirebaseUser.uid}');
-  //
-  //   Map historyMap = {
-  //     'modelName': widget.docSnapshot.data.modelName,
-  //     'color': widget.docSnapshot.data.color,
-  //     'ownerName': widget.docSnapshot.data.ownerName,
-  //     'vehicleNumber': widget.docSnapshot.data.vehicleNumber,
-  //     'amount': widget.amount,
-  //     'pickupDate': widget.pickupDate,
-  //     'dropofDate': widget.dropOffDate
-  //   };
-  //
-  //   dbref.set(historyMap).then((value) => saveUserHistory());
-  //
-  //   }
+  void saveOwnerHistory(){
+
+    FirebaseFirestore.instance.
+    collection('users').doc(currentFirebaseUser.uid).
+    get().then((value) {
+      DatabaseReference dbref = FirebaseDatabase.instance
+          .reference()
+          .child('owner_history/${widget.bookedCar}/${currentFirebaseUser.uid}');
+
+      Map historyMap = {
+        'userName': value.data()['name'],
+        'age': value.data()['age'],
+        'pickUp' : widget.initialLocation,
+        'dropOff' : widget.finalDestination,
+        'amount': widget.amount,
+        'pickupDate': widget.pickupDate,
+        'dropofDate': widget.dropOffDate
+      };
+
+      dbref.set(historyMap);
+    });
+
+
+    }
 
   void handlerErrorFailure() {
     Toast.show('Payment Failed', context);
@@ -135,6 +148,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     saveUserHistory();
+    saveOwnerHistory();
     return RideHistory();
   }
 }

@@ -799,6 +799,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               context,
                               MaterialPageRoute(builder: (context) {
                                 return CarList(
+                                  initialLocation: initialLocation,
+                                  finalDestination: finalDestination,
                                   carlist: nearbyCarId,
                                   cost: ((tripDirectionDetails != null)
                                       ? AssistantMethods.calculateFares(

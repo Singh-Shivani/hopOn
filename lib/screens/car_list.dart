@@ -8,9 +8,11 @@ import 'car_details.dart';
 class CarList extends StatefulWidget {
   final List<dynamic> carlist;
   final int cost;
+  String finalDestination;
+  String initialLocation;
   String pickupDate;
   String dropOffDate;
-  CarList({this.carlist, this.cost, this.dropOffDate, this.pickupDate});
+  CarList({this.carlist, this.cost,this.finalDestination, this.initialLocation, this.dropOffDate, this.pickupDate});
 
   @override
   _CarListState createState() => _CarListState();
@@ -49,6 +51,8 @@ class _CarListState extends State<CarList> {
                         MaterialPageRoute(
                           builder: (context) => DetailsCar(
                             bookedCar : car,
+                            initialLocation: widget.initialLocation,
+                            finalDestination: widget.finalDestination,
                             docSnapshot: snapshot,
                             rideCost: widget.cost,
                             pickupDate: widget.pickupDate,

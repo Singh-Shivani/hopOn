@@ -16,7 +16,7 @@ class _RideHistoryState extends State<RideHistory> {
   void initState() {
     dbref = FirebaseDatabase.instance
         .reference()
-        .child("user_history/${currentFirebaseUser.uid}");
+        .child("owner_history/${currentFirebaseUser.uid}");
     super.initState();
   }
 
@@ -55,20 +55,12 @@ class _RideHistoryState extends State<RideHistory> {
                                     height: 10,
                                   ),
                                   Info(
-                                    infoText: 'Model Name: ',
-                                    infoData: lists[index]["modelName"],
+                                    infoText: 'User Name: ',
+                                    infoData: lists[index]["userName"],
                                   ),
                                   Info(
-                                    infoText: 'Color: ',
-                                    infoData: lists[index]["color"],
-                                  ),
-                                  Info(
-                                    infoText: 'Vehicle Number: ',
-                                    infoData: lists[index]["vehicleNumber"],
-                                  ),
-                                  Info(
-                                    infoText: 'Owner Name: ',
-                                    infoData: lists[index]["ownerName"],
+                                    infoText: 'Age: ',
+                                    infoData: lists[index]["age"],
                                   ),
                                   Info(
                                     infoText: 'PickUp: ',
@@ -101,31 +93,6 @@ class _RideHistoryState extends State<RideHistory> {
                                   ),
                                   SizedBox(
                                     height: 10,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      print(lists[index]['ownerId']);
-                                      dbref = FirebaseDatabase.instance
-                                          .reference()
-                                          .child(
-                                              "user_history/${currentFirebaseUser.uid}/${lists[index]['ownerId']}");
-                                      dbref.onDisconnect();
-                                      dbref.remove();
-
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) {
-                                          return HomePage();
-                                        }),
-                                      );
-                                    },
-                                    child: Text(
-                                      'Cancel Ride',
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
                                   ),
                                 ],
                               ),

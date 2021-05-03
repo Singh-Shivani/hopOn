@@ -8,12 +8,16 @@ import '../widgets/widgets.dart';
 class DetailsCar extends StatefulWidget {
   final AsyncSnapshot<VehicleUser> docSnapshot;
   final String bookedCar;
+  String finalDestination;
+  String initialLocation;
   final int rideCost;
   final String pickupDate;
   final String dropOffDate;
   DetailsCar(
       {@required this.docSnapshot,
         @required this.bookedCar,
+      @required this.finalDestination,
+        @required this.initialLocation,
       @required this.rideCost,
       @required this.pickupDate,
       @required this.dropOffDate});
@@ -25,6 +29,7 @@ class DetailsCar extends StatefulWidget {
 var totalCost;
 
 class _DetailsCarState extends State<DetailsCar> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +153,8 @@ class _DetailsCarState extends State<DetailsCar> {
                     MaterialPageRoute(
                       builder: (context) => PaymentPage(
                         docSnapshot: widget.docSnapshot,
+                        initialLocation: widget.initialLocation,
+                        finalDestination: widget.finalDestination,
                         bookedCar: widget.bookedCar,
                         amount: (widget.rideCost +
                                 (int.parse(widget.docSnapshot.data.amount)))

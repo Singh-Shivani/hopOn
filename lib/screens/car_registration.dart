@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/owner_homePage.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/validation_services.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
 class VehicleDetails extends StatefulWidget {
@@ -65,31 +66,11 @@ class _VehicleDetailsState extends State<VehicleDetails> {
             key: _formKey,
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+                padding: EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back_rounded,
-                            // color: Colors.white,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              'Register your car',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    CustomBackButton(pageHeader: 'Register your car'),
                     SizedBox(
                       height: 20,
                     ),
@@ -98,42 +79,43 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                       children: <Widget>[
                         imageFile != null
                             ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width - 20,
-                                child: Image.file(
-                                  imageFile,
-                                  fit: BoxFit.fitWidth,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          20,
+                                      child: Image.file(
+                                        imageFile,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      FlatButton(
+                                        child: Icon(Icons.refresh),
+                                        onPressed: _clear,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  _pickImage(ImageSource.gallery);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 200,
+                                  child: Image.asset(
+                                    'images/car.png',
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                FlatButton(
-                                  child: Icon(Icons.refresh),
-                                  onPressed: _clear,
-                                ),
-                              ],
-                            ),
-                          ],
-                        )
-                            : GestureDetector(
-                          onTap: () {
-                            _pickImage(ImageSource.gallery);
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 200,
-                            child: Image.asset(
-                              'images/car.png',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     InputFormField(
@@ -195,8 +177,9 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Processing')));
                         initVehicleUser();
-                        String isComplete = await firebaseFunctions
-                            .uploadVehicleInfo(owner.toMap(), imageFile, context);
+                        String isComplete =
+                            await firebaseFunctions.uploadVehicleInfo(
+                                owner.toMap(), imageFile, context);
                         if (isComplete == 'true') {
                           await Navigator.push(
                             context,

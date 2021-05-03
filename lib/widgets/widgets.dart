@@ -203,7 +203,7 @@ class AvailabilityButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -233,7 +233,7 @@ class ConfirmSheetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(
@@ -245,8 +245,7 @@ class ConfirmSheetButton extends StatelessWidget {
         child: Center(
           child: Text(
             title,
-            style: TextStyle(
-                fontSize: 20.0, fontFamily: 'MuseoModemo', color: Colors.black),
+            style: TextStyle(fontSize: 16.0, color: Colors.white),
           ),
         ),
       ),

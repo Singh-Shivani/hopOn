@@ -12,6 +12,56 @@ class RideHistory extends StatefulWidget {
 class _RideHistoryState extends State<RideHistory> {
   DatabaseReference dbref;
   List lists = [];
+
+  showAlertDialog(BuildContext context, int index) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      color: Colors.black,
+      child: Text(
+        "Back",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      color: Colors.red,
+      child: Text("Yes, cancel ride",
+          style: TextStyle(
+            color: Colors.white,
+          )),
+      onPressed: () {
+        print(lists[index]['ownerId']);
+        dbref = FirebaseDatabase.instance.reference().child(
+            "user_history/${currentFirebaseUser.uid}/${lists[index]['ownerId']}");
+        dbref.onDisconnect();
+        dbref.remove();
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("hopOn"),
+      content: Text("Would you like to cancel your ride?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   void initState() {
     dbref = FirebaseDatabase.instance
@@ -44,91 +94,72 @@ class _RideHistoryState extends State<RideHistory> {
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       child: Container(
-                        width: 300,
+                        width: 500,
                         height: MediaQuery.of(context).size.height,
-                        child: Row(
+                        child: Column(
                           children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Info(
-                                    infoText: 'Model Name: ',
-                                    infoData: lists[index]["modelName"],
-                                  ),
-                                  Info(
-                                    infoText: 'Color: ',
-                                    infoData: lists[index]["color"],
-                                  ),
-                                  Info(
-                                    infoText: 'Vehicle Number: ',
-                                    infoData: lists[index]["vehicleNumber"],
-                                  ),
-                                  Info(
-                                    infoText: 'Owner Name: ',
-                                    infoData: lists[index]["ownerName"],
-                                  ),
-                                  Info(
-                                    infoText: 'PickUp: ',
-                                    infoData: lists[index]["pickUp"],
-                                  ),
-                                  Info(
-                                    infoText: 'DropOff: ',
-                                    infoData: lists[index]["dropOff"],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'From ' +
-                                        lists[index]["pickupDate"] +
-                                        ' To ' +
-                                        lists[index]["dropofDate"],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Amount Paid : Rs. ${lists[index]["amount"]}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      print(lists[index]['ownerId']);
-                                      dbref = FirebaseDatabase.instance
-                                          .reference()
-                                          .child(
-                                              "user_history/${currentFirebaseUser.uid}/${lists[index]['ownerId']}");
-                                      dbref.onDisconnect();
-                                      dbref.remove();
-
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) {
-                                          return HomePage();
-                                        }),
-                                      );
-                                    },
-                                    child: Text(
-                                      'Cancel Ride',
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Info(
+                              infoText: 'Model Name: ',
+                              infoData: lists[index]["modelName"],
+                            ),
+                            Info(
+                              infoText: 'Color: ',
+                              infoData: lists[index]["color"],
+                            ),
+                            Info(
+                              infoText: 'Vehicle Number: ',
+                              infoData: lists[index]["vehicleNumber"],
+                            ),
+                            Info(
+                              infoText: 'Owner Name: ',
+                              infoData: lists[index]["ownerName"],
+                            ),
+                            Info(
+                              infoText: 'PickUp: ',
+                              infoData: lists[index]["pickUp"],
+                            ),
+                            Info(
+                              infoText: 'DropOff: ',
+                              infoData: lists[index]["dropOff"],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'From ' +
+                                  lists[index]["pickupDate"] +
+                                  ' To ' +
+                                  lists[index]["dropofDate"],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'Amount Paid : Rs. ${lists[index]["amount"]}',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                showAlertDialog(context, index);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return HomePage();
+                                  }),
+                                );
+                              },
+                              child: CustomButton(text: 'Book a ride',)
                             ),
                           ],
                         ),

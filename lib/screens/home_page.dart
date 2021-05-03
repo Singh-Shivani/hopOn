@@ -914,8 +914,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         );
 
         Marker pickUpLocMarker = Marker(
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
           infoWindow:
               InfoWindow(title: initialPos.placeName, snippet: 'PickUp'),
           position: pickUpLatLng,
@@ -923,7 +922,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         );
 
         Marker dropOffLocMarker = Marker(
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           infoWindow: InfoWindow(title: finalPos.placeName, snippet: 'DropOff'),
           position: dropOffLatLng,
           markerId: MarkerId('dropOffId'),

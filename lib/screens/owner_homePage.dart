@@ -12,11 +12,12 @@ import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/confirmSheet.dart';
-import 'owner_history.dart';
+
 import '../widgets/widgets.dart';
 import 'car_registration.dart';
 import 'home_page.dart';
 import 'login_page.dart';
+import 'owner_history.dart';
 import 'profile_page.dart';
 
 class DisplayMap extends StatefulWidget {
@@ -52,7 +53,6 @@ class _DisplayMapState extends State<DisplayMap> {
   DatabaseReference tripRequestRef;
   var locationOptions = LocationOptions(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
-
 
   void setupPositionLocator() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -165,7 +165,6 @@ class _DisplayMapState extends State<DisplayMap> {
                 ),
               ),
 
-
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -275,8 +274,9 @@ class _DisplayMapState extends State<DisplayMap> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25)),
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
@@ -302,11 +302,11 @@ class _DisplayMapState extends State<DisplayMap> {
                               context: context,
                               builder: (BuildContext context) => ConfirmSheet(
                                     title: (!isAvailable)
-                                        ? 'Give on rent'
-                                        : 'Remove from rent',
+                                        ? 'Give my car on rent'
+                                        : "Don't want to keep the car for others?",
                                     subtitle: (!isAvailable)
-                                        ? 'Give your car\navailable for rent'
-                                        : 'Remove your car\nfrom available cars for rent',
+                                        ? 'Want to give your car on rent?'
+                                        : 'Want to remove your car from renting?',
                                     onPressed: () {
                                       if (!isAvailable) {
                                         goOnline();
@@ -322,7 +322,8 @@ class _DisplayMapState extends State<DisplayMap> {
                                         Navigator.pop(context);
                                         setState(() {
                                           availabilityColor = Colors.black;
-                                          availabilityText = 'Give on rent';
+                                          availabilityText =
+                                              'Give my car on rent';
                                           isAvailable = false;
                                         });
                                       }

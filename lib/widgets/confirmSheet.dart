@@ -12,7 +12,7 @@ class ConfirmSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 220,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -34,7 +34,10 @@ class ConfirmSheet extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20,
@@ -45,7 +48,7 @@ class ConfirmSheet extends StatelessWidget {
               style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -58,7 +61,7 @@ class ConfirmSheet extends StatelessWidget {
                     child: Container(
                       child: ConfirmSheetButton(
                         title: 'Back',
-                        color: Colors.grey,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -69,7 +72,7 @@ class ConfirmSheet extends StatelessWidget {
                     child: Container(
                       child: ConfirmSheetButton(
                         title: 'Yes!',
-                        color: (title == 'Give on rent')
+                        color: (title == 'Give my car on rent')
                             ? Colors.green
                             : Colors.red,
                       ),

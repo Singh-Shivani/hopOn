@@ -43,11 +43,12 @@ class _CarListState extends State<CarList> {
                 if (snapshot.hasData) {
                   return GestureDetector(
                     onTap: () {
-                      bookedCar = car;
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => DetailsCar(
+                            bookedCar : car,
                             docSnapshot: snapshot,
                             rideCost: widget.cost,
                             pickupDate: widget.pickupDate,

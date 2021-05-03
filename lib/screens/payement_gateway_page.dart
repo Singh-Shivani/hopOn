@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import '../services/firebase_services.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
@@ -10,11 +11,13 @@ import 'package:vehicle_sharing_app/screens/ride_history_page.dart';
 class PaymentPage extends StatefulWidget {
   final String amount;
   final AsyncSnapshot<VehicleUser> docSnapshot;
+  final String bookedCar;
   final String pickupDate;
   final String dropOffDate;
 
   PaymentPage(
       {@required this.amount,
+        @required this.bookedCar,
       @required this.docSnapshot,
       @required this.pickupDate,
       @required this.dropOffDate});
@@ -50,16 +53,19 @@ class _PaymentPageState extends State<PaymentPage> {
   void handlerPaymentSuccess() {
     Toast.show('Payment Successful', context);
     print('handlerPaymentSuccess');
-    saveHistory();
+    saveUserHistory();
   }
 
-  void saveHistory() {
+  void saveUserHistory() {
+
+    print("BookedCar :: " + widget.bookedCar);
+    print("UID :: " + currentFirebaseUser.uid);
     DatabaseReference dbref = FirebaseDatabase.instance
         .reference()
-        .child('user_history/${currentFirebaseUser.uid}/$bookedCar');
+        .child('user_history/${currentFirebaseUser.uid}/${widget.bookedCar}');
 
     Map historyMap = {
-      'ownerId': bookedCar,
+      'ownerId': widget.bookedCar,
       'modelName': widget.docSnapshot.data.modelName,
       'color': widget.docSnapshot.data.color,
       'ownerName': widget.docSnapshot.data.ownerName,
@@ -76,6 +82,27 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ));
   }
+
+  // void saveOwnerHistory(){
+  //   Future<AppUser> snapshot = FirebaseFunctions().getUser();
+  //   print(snapshot);
+  //   DatabaseReference dbref = FirebaseDatabase.instance
+  //       .reference()
+  //       .child('owner_history/${widget.bookedCar}/${currentFirebaseUser.uid}');
+  //
+  //   Map historyMap = {
+  //     'modelName': widget.docSnapshot.data.modelName,
+  //     'color': widget.docSnapshot.data.color,
+  //     'ownerName': widget.docSnapshot.data.ownerName,
+  //     'vehicleNumber': widget.docSnapshot.data.vehicleNumber,
+  //     'amount': widget.amount,
+  //     'pickupDate': widget.pickupDate,
+  //     'dropofDate': widget.dropOffDate
+  //   };
+  //
+  //   dbref.set(historyMap).then((value) => saveUserHistory());
+  //
+  //   }
 
   void handlerErrorFailure() {
     Toast.show('Payment Failed', context);

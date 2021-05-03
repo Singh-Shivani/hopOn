@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import '../services/firebase_services.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:toast/toast.dart';
@@ -17,7 +16,7 @@ class PaymentPage extends StatefulWidget {
 
   PaymentPage(
       {@required this.amount,
-        @required this.bookedCar,
+      @required this.bookedCar,
       @required this.docSnapshot,
       @required this.pickupDate,
       @required this.dropOffDate});
@@ -53,11 +52,10 @@ class _PaymentPageState extends State<PaymentPage> {
   void handlerPaymentSuccess() {
     Toast.show('Payment Successful', context);
     print('handlerPaymentSuccess');
-    saveUserHistory();
+    // saveUserHistory();
   }
 
   void saveUserHistory() {
-
     print("BookedCar :: " + widget.bookedCar);
     print("UID :: " + currentFirebaseUser.uid);
     DatabaseReference dbref = FirebaseDatabase.instance
@@ -136,6 +134,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    saveUserHistory();
+    return RideHistory();
   }
 }

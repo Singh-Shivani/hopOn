@@ -42,6 +42,7 @@ dependencies:
   razorpay_flutter: ^1.2.5
   toast: ^0.1.5
   table_calendar: ^3.0.0
+  image_picker: ^0.7.4
 
 
 

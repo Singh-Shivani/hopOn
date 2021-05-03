@@ -4,12 +4,12 @@ import 'package:vehicle_sharing_app/globalvariables.dart';
 import 'package:vehicle_sharing_app/screens/home_page.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
-class RideHistory extends StatefulWidget {
+class OwnerHistory extends StatefulWidget {
   @override
-  _RideHistoryState createState() => _RideHistoryState();
+  _OwnerHistoryState createState() => _OwnerHistoryState();
 }
 
-class _RideHistoryState extends State<RideHistory> {
+class _OwnerHistoryState extends State<OwnerHistory> {
   DatabaseReference dbref;
   List lists = [];
   @override
@@ -86,7 +86,7 @@ class _RideHistoryState extends State<RideHistory> {
                                     height: 5,
                                   ),
                                   Text(
-                                    'Amount Paid : Rs. ${lists[index]["amount"]}',
+                                    'Amount Received : Rs. ${lists[index]["amount"]}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14),

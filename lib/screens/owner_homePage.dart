@@ -12,7 +12,7 @@ import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/widgets/confirmSheet.dart';
-
+import 'owner_history.dart';
 import '../widgets/widgets.dart';
 import 'car_registration.dart';
 import 'home_page.dart';
@@ -161,6 +161,21 @@ class _DisplayMapState extends State<DisplayMap> {
                   title: Text(
                     'Book a ride',
                     // style: TextStyle(fontSize: 1),
+                  ),
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return OwnerHistory();
+                  }));
+                },
+                child: ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text(
+                    'History',
+                    // style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),

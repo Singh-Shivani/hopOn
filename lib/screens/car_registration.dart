@@ -3,6 +3,7 @@ import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/owner_homePage.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
 import 'package:vehicle_sharing_app/services/validation_services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:vehicle_sharing_app/widgets/widgets.dart';
 
 class VehicleDetails extends StatefulWidget {

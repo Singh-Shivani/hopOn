@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vehicle_sharing_app/models/user.dart';
 import 'package:vehicle_sharing_app/screens/detail_profile_page.dart';
 import 'package:vehicle_sharing_app/screens/login_page.dart';
+import 'package:vehicle_sharing_app/screens/owner_history.dart';
 import 'package:vehicle_sharing_app/screens/ride_history_page.dart';
 import 'package:vehicle_sharing_app/services/authentication_service.dart';
 import 'package:vehicle_sharing_app/services/firebase_services.dart';
@@ -21,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Column(
         children: [
           Container(
-
             child: Padding(
               padding: EdgeInsets.only(top: 40, left: 20, right: 20),
               child: Column(
@@ -89,13 +89,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: MediaQuery.of(context).size.width,
                 child: ListView(
                   children: [
-                    ListTile(
-                      leading: Icon(Icons.money_rounded),
-                      title: Text(
-                        'My Earnings',
-                        style: TextStyle(fontSize: 14),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return OwnerHistory();
+                          }),
+                        );
+                      },
+                      child: ListTile(
+                        leading: Icon(Icons.money_rounded),
+                        title: Text(
+                          'My Earnings',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios_rounded),
                       ),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded),
                     ),
                     GestureDetector(
                       onTap: () {

@@ -90,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.pop(dialogContext);
             },
             child: CustomButton(
-                text: 'Login', ),
+              text: 'Login',
+            ),
           ),
           Text("\nDon't have any account?"),
           GestureDetector(
@@ -145,12 +146,13 @@ class _LoginPageState extends State<LoginPage> {
                       InputTextField(
                         controller: emailIdController,
                         label: 'Email-Id',
+                        obscure: false,
                         icon: Icon(Icons.email_outlined),
                       ),
                       InputTextField(
                         controller: passwordController,
                         label: 'Password',
-
+                        obscure: true,
                         icon: Icon(Icons.lock),
                       ),
                       SizedBox(
@@ -202,8 +204,8 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.pop(dialogContext);
                         },
                         child: CustomButton(
-                            text: 'Login',
-                            ),
+                          text: 'Login',
+                        ),
                       ),
                       SizedBox(
                         height: 20,

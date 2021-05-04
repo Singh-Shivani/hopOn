@@ -166,7 +166,7 @@ class _RideHistoryState extends State<RideHistory> {
                             children: [
                               Text('Amount Paid:\t\t'),
                               Text(
-                                '₹  ${lists[index]["amount"]}\t\t\t',
+                                '₹ ${lists[index]["amount"]}\t\t\t',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 14),
                               ),

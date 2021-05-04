@@ -26,7 +26,10 @@ class _OwnerHistoryState extends State<OwnerHistory> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20),
         children: <Widget>[
-          CustomBackButton(pageHeader: 'My rides'),
+          CustomBackButton(pageHeader: 'Ride of my car'),
+          SizedBox(
+            height: 30,
+          ),
           FutureBuilder(
             future: dbref.once(),
             builder: (context, AsyncSnapshot<DataSnapshot> snapshot) {
@@ -42,64 +45,84 @@ class _OwnerHistoryState extends State<OwnerHistory> {
                   shrinkWrap: true,
                   itemCount: lists.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: Container(
-                        width: 300,
-                        height: MediaQuery.of(context).size.height,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Info(
-                                    infoText: 'User Name: ',
-                                    infoData: lists[index]["userName"],
-                                  ),
-                                  Info(
-                                    infoText: 'Age: ',
-                                    infoData: lists[index]["age"],
-                                  ),
-                                  Info(
-                                    infoText: 'PickUp: ',
-                                    infoData: lists[index]["pickUp"],
-                                  ),
-                                  Info(
-                                    infoText: 'DropOff: ',
-                                    infoData: lists[index]["dropOff"],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'From ' +
-                                        lists[index]["pickupDate"] +
-                                        ' To ' +
-                                        lists[index]["dropofDate"],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    'Amount Received : Rs. ${lists[index]["amount"]}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ),
+                    return Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SpecificationWidget(
+                              text: lists[index]["userName"],
+                              helpText: "Car taken by",
+                            ),
+                            SpecificationWidget(
+                              text: lists[index]["age"],
+                              helpText: "Age",
                             ),
                           ],
                         ),
-                      ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        SpecificationWidget(
+                          text: lists[index]["pickUp"],
+                          helpText: 'Pickup location',
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SpecificationWidget(
+                          text: lists[index]["dropOff"],
+                          helpText: 'DropOff location',
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Row(
+                          children: [
+                            Text('From\t\t'),
+                            Text(
+                              lists[index]["pickupDate"],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                            Text('\t\tTo\t\t'),
+                            Text(
+                              lists[index]["dropofDate"],
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          children: [
+                            Text('Amount Received:\t\t'),
+                            Text(
+                              '₹ ${lists[index]["amount"]}\t\t\t',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14),
+                            ),
+                            Icon(Icons.check_circle),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return HomePage();
+                                }),
+                              );
+                            },
+                            child: CustomButton(
+                              text: 'Book a ride',
+                            )),
+                      ],
                     );
                   },
                 );
@@ -113,6 +136,43 @@ class _OwnerHistoryState extends State<OwnerHistory> {
           )
         ],
       ),
+    );
+  }
+}
+
+class SpecificationWidget extends StatelessWidget {
+  final String helpText;
+  final String text;
+
+  SpecificationWidget({@required this.text, @required this.helpText});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          text,
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 6,
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(246, 246, 246, 1),
+            borderRadius: BorderRadius.all(
+              Radius.circular(6),
+            ),
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              helpText,
+              style: TextStyle(fontSize: 10, color: Colors.black54),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

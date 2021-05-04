@@ -54,7 +54,7 @@ class _DisplayMapState extends State<DisplayMap> {
   var locationOptions = LocationOptions(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
 
-  String availabilityText = 'Give on rent';
+  String availabilityText = 'Give my car on rent';
   Color availabilityColor = Colors.black;
   bool isAvailable = false;
   String exist = 'donotexist';
@@ -169,22 +169,6 @@ class _DisplayMapState extends State<DisplayMap> {
                   ),
                 ),
               ),
-
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return OwnerHistory();
-                  }));
-                },
-                child: ListTile(
-                  leading: Icon(Icons.history),
-                  title: Text(
-                    'History',
-                    // style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              //Drawer Header
               GestureDetector(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -199,6 +183,22 @@ class _DisplayMapState extends State<DisplayMap> {
                   ),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return OwnerHistory();
+                  }));
+                },
+                child: ListTile(
+                  leading: Icon(Icons.history),
+                  title: Text(
+                    'My Car History',
+                    // style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+              //Drawer Header
+
               GestureDetector(
                 onTap: () {
                   context.read<AuthenticationService>().signOut(context);

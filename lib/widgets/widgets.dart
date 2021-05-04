@@ -57,6 +57,7 @@ class InputFormField extends StatelessWidget {
       },
       decoration: InputDecoration(
         hintText: fieldName,
+        hintStyle: TextStyle(fontSize: 13),
       ),
       obscureText: obscure,
     );
@@ -105,15 +106,17 @@ class ProgressDialog extends StatelessWidget {
 class InputTextField extends StatelessWidget {
   final String label;
   final Icon icon;
+  final bool obscure;
   final TextEditingController controller;
   InputTextField(
-      {@required this.label, @required this.icon, @required this.controller});
+      {@required this.label, @required this.icon, @required this.controller, this.obscure});
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
         controller: controller,
+        obscureText: obscure,
         decoration: InputDecoration(
           icon: icon,
           labelText: label,

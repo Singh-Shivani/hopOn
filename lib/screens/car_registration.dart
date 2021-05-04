@@ -107,12 +107,26 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                             child: Container(
                               alignment: Alignment.center,
                               width: 200,
-                              child: Image.asset(
-                                'images/car.png',
-                                fit: BoxFit.cover,
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.directions_car,
+                                    size: 80,
+                                  ),
+                                  Text(
+                                    'Choose your car image',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
+                    SizedBox(
+                      height: 40,
+                    ),
                     InputFormField(
                       fieldName: 'Model Name',
                       obscure: false,

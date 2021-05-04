@@ -56,16 +56,19 @@ class _SignUpPageState extends State<SignUpPage> {
               InputTextField(
                 controller: emailIdController,
                 label: 'Email-Id',
+                obscure: false,
                 icon: Icon(Icons.email_outlined),
               ),
               InputTextField(
                 controller: passwordController,
                 label: 'Password',
+                obscure: true,
                 icon: Icon(Icons.lock),
               ),
               InputTextField(
                 controller: confirmPassController,
                 label: 'Confirm Password',
+                obscure: true,
                 icon: Icon(Icons.lock),
               ),
               SizedBox(
@@ -110,8 +113,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   Navigator.pop(dialogContext);
                 },
                 child: CustomButton(
-                    text: 'Sign Up',
-                    ),
+                  text: 'Sign Up',
+                ),
               ),
               SizedBox(
                 height: 20,

@@ -15,9 +15,9 @@ class DetailsCar extends StatefulWidget {
   final String dropOffDate;
   DetailsCar(
       {@required this.docSnapshot,
-        @required this.bookedCar,
+      @required this.bookedCar,
       @required this.finalDestination,
-        @required this.initialLocation,
+      @required this.initialLocation,
       @required this.rideCost,
       @required this.pickupDate,
       @required this.dropOffDate});
@@ -29,12 +29,12 @@ class DetailsCar extends StatefulWidget {
 var totalCost;
 
 class _DetailsCarState extends State<DetailsCar> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -84,7 +84,7 @@ class _DetailsCarState extends State<DetailsCar> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 50,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -142,7 +142,7 @@ class _DetailsCarState extends State<DetailsCar> {
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 100,
             ),
             Padding(
               padding: EdgeInsets.all(20.0),

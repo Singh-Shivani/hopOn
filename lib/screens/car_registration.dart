@@ -65,6 +65,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
           return Form(
             key: _formKey,
             child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: Column(
@@ -74,50 +75,44 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                     SizedBox(
                       height: 20,
                     ),
-                    ListView(
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        imageFile != null
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          20,
-                                      child: Image.file(
-                                        imageFile,
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      FlatButton(
-                                        child: Icon(Icons.refresh),
-                                        onPressed: _clear,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            : GestureDetector(
-                                onTap: () {
-                                  _pickImage(ImageSource.gallery);
-                                },
+                    imageFile != null
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
                                 child: Container(
-                                  alignment: Alignment.center,
-                                  width: 200,
-                                  child: Image.asset(
-                                    'images/car.png',
-                                    fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width - 20,
+                                  child: Image.file(
+                                    imageFile,
+                                    fit: BoxFit.fitWidth,
                                   ),
                                 ),
                               ),
-                      ],
-                    ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  FlatButton(
+                                    child: Icon(Icons.refresh),
+                                    onPressed: _clear,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              _pickImage(ImageSource.gallery);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 200,
+                              child: Image.asset(
+                                'images/car.png',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                     InputFormField(
                       fieldName: 'Model Name',
                       obscure: false,
@@ -205,6 +200,9 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                       child: CustomButton(
                         text: 'Register',
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),

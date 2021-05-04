@@ -150,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                       InputTextField(
                         controller: passwordController,
                         label: 'Password',
+
                         icon: Icon(Icons.lock),
                       ),
                       SizedBox(

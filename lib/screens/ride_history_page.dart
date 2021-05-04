@@ -39,7 +39,13 @@ class _RideHistoryState extends State<RideHistory> {
             "user_history/${currentFirebaseUser.uid}/${lists[index]['ownerId']}");
         dbref.onDisconnect();
         dbref.remove();
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return HomePage();
+          }),
+        );
       },
     );
 
@@ -92,64 +98,103 @@ class _RideHistoryState extends State<RideHistory> {
                   shrinkWrap: true,
                   itemCount: lists.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: Container(
-                        width: 500,
-                        height: MediaQuery.of(context).size.height,
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Info(
-                              infoText: 'Model Name: ',
-                              infoData: lists[index]["modelName"],
-                            ),
-                            Info(
-                              infoText: 'Color: ',
-                              infoData: lists[index]["color"],
-                            ),
-                            Info(
-                              infoText: 'Vehicle Number: ',
-                              infoData: lists[index]["vehicleNumber"],
-                            ),
-                            Info(
-                              infoText: 'Owner Name: ',
-                              infoData: lists[index]["ownerName"],
-                            ),
-                            Info(
-                              infoText: 'PickUp: ',
-                              infoData: lists[index]["pickUp"],
-                            ),
-                            Info(
-                              infoText: 'DropOff: ',
-                              infoData: lists[index]["dropOff"],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'From ' +
-                                  lists[index]["pickupDate"] +
-                                  ' To ' +
-                                  lists[index]["dropofDate"],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Amount Paid : Rs. ${lists[index]["amount"]}',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            GestureDetector(
+                    return Container(
+                      height: 500,
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SpecificationWidget(
+                                text: lists[index]["modelName"],
+                                helpText: "Your car",
+                              ),
+                              SpecificationWidget(
+                                text: lists[index]["color"],
+                                helpText: "Car's color",
+                              ),
+                              SpecificationWidget(
+                                text: lists[index]["vehicleNumber"],
+                                helpText: 'Car number',
+                              ),
+                              SpecificationWidget(
+                                text: lists[index]["ownerName"],
+                                helpText: 'Owner name',
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          SpecificationWidget(
+                            text: lists[index]["pickUp"],
+                            helpText: 'Pickup location',
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SpecificationWidget(
+                            text: lists[index]["dropOff"],
+                            helpText: 'DropOff location',
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Row(
+                            children: [
+                              Text('From\t\t'),
+                              Text(
+                                lists[index]["pickupDate"],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                              Text('\t\tTo\t\t'),
+                              Text(
+                                lists[index]["dropofDate"],
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Row(
+                            children: [
+                              Text('Amount Paid:\t\t'),
+                              Text(
+                                '₹  ${lists[index]["amount"]}\t\t\t',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 14),
+                              ),
+                              Icon(Icons.check_circle),
+                              SizedBox(
+                                width: 50,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showAlertDialog(context, index);
+                                },
+                                child: FlatButton(
+                                  color: Colors.red,
+                                  child: Text("Cancel ride",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )),
+                                  onPressed: () {
+                                    showAlertDialog(context, index);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          GestureDetector(
                               onTap: () {
                                 showAlertDialog(context, index);
                                 Navigator.push(
@@ -159,10 +204,10 @@ class _RideHistoryState extends State<RideHistory> {
                                   }),
                                 );
                               },
-                              child: CustomButton(text: 'Book a ride',)
-                            ),
-                          ],
-                        ),
+                              child: CustomButton(
+                                text: 'Book a ride',
+                              )),
+                        ],
                       ),
                     );
                   },
@@ -225,6 +270,43 @@ class Info extends StatelessWidget {
         ),
         SizedBox(
           height: 5,
+        ),
+      ],
+    );
+  }
+}
+
+class SpecificationWidget extends StatelessWidget {
+  final String helpText;
+  final String text;
+
+  SpecificationWidget({@required this.text, @required this.helpText});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          text,
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 6,
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(246, 246, 246, 1),
+            borderRadius: BorderRadius.all(
+              Radius.circular(6),
+            ),
+          ),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              helpText,
+              style: TextStyle(fontSize: 10, color: Colors.black54),
+            ),
+          ),
         ),
       ],
     );

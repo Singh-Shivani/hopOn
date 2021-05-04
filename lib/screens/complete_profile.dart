@@ -98,29 +98,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                     //     ),
                     //   ),
                     // ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 45,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(
-                            Icons.arrow_back_rounded,
-                            // color: Colors.white,
-                          ),
-                        ),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              'Complete Profile',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ],
+                    CustomBackButton(
+                      pageHeader: 'Complete your profile',
                     ),
 
                     SizedBox(
@@ -232,8 +211,8 @@ class _CompleteProfileState extends State<CompleteProfile> {
                         }
                       },
                       child: CustomButton(
-                          text: 'Save',
-                          ),
+                        text: 'Save',
+                      ),
                     ),
                   ],
                 ),

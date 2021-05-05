@@ -108,20 +108,24 @@ class _OwnerHistoryState extends State<OwnerHistory> {
                           ],
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 20,
                         ),
                         GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  return HomePage();
-                                }),
-                              );
-                            },
-                            child: CustomButton(
-                              text: 'Book a ride',
-                            )),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return HomePage();
+                              }),
+                            );
+                          },
+                          child: CustomButton(
+                            text: 'Book a ride',
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                       ],
                     );
                   },

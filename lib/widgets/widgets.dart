@@ -11,14 +11,23 @@ class CustomButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(185, 205, 237, 1),
+            blurRadius: 6,
+          ),
+        ],
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            Color.fromRGBO(16, 16, 16, 1),
-            Color.fromRGBO(110, 82, 252, 1),
-            Color.fromRGBO(83, 145, 248, 1),
-            // Color.fromRGBO(191, 131, 255, 1),
+            // Color.fromRGBO(16, 16, 16, 1),
+            // Color.fromRGBO(110, 82, 252, 1),
+            // Color.fromRGBO(83, 145, 248, 1),
+
+            Color.fromRGBO(251, 194, 235, 1),
+            Color.fromRGBO(166, 192, 238, 1),
+            Color.fromRGBO(161, 196, 253, 1),
           ],
         ),
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -109,7 +118,10 @@ class InputTextField extends StatelessWidget {
   final bool obscure;
   final TextEditingController controller;
   InputTextField(
-      {@required this.label, @required this.icon, @required this.controller, this.obscure});
+      {@required this.label,
+      @required this.icon,
+      @required this.controller,
+      this.obscure});
   @override
   Widget build(BuildContext context) {
     return Padding(

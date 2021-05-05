@@ -48,7 +48,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
             key: _formKey,
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

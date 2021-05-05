@@ -54,7 +54,7 @@ class _DisplayMapState extends State<DisplayMap> {
   var locationOptions = LocationOptions(
       accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 4);
 
-  String availabilityText = 'Give my car on rent';
+  String availabilityText = 'Give on rent';
   Color availabilityColor = Colors.black;
   bool isAvailable = false;
   String exist = 'donotexist';

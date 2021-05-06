@@ -33,13 +33,16 @@
    - https://www.figma.com/file/3ALznWfTL7k7nPWyPuMfKT/Vehicle-Sharing-App?node-id=18%3A3
 
 ## In action👀
+<h3 align="center">1. Rent a car</h3>
 <p align="center">
-     1.Rent a car&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.Give car on rent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.Details of your car
- </p>
-
-<p align="center">
-    <img src="images/rent_car.gif" alt="Logo" height="500"  hspace="20"> 
-    <img src="images/give_on_car.gif" alt="Logo" height="500"  hspace="20"> 
-    <img src="images/owner_history.gif" alt="Logo" height="500"  hspace="20"> 
+   <img src="images/rent_car.gif" alt="Logo" height="500" > 
+ </p> 
+ <h3 align="center">2. Give your car on rent</h3>
+ <p align="center">
+     <img src="images/give_on_car.gif" alt="Logo" height="500"> 
 </p>
+<h3 align="center">3. Rented car's details</h3>
+ <p align="center">
+    <img src="images/owner_history.gif" alt="Logo" height="500"> 
+ </p>
 

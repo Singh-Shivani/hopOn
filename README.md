@@ -33,16 +33,36 @@
    - https://www.figma.com/file/3ALznWfTL7k7nPWyPuMfKT/Vehicle-Sharing-App?node-id=18%3A3
 
 ## In action👀
+
 <h3 align="center">1. Rent a car</h3>
 <p align="center">
-   <img src="images/rent_car.gif" alt="Logo" height="500" > 
+   <img src="images/rent_car.gif" alt="Logo" height="600" > 
  </p> 
+ <br>
  <h3 align="center">2. Give your car on rent</h3>
  <p align="center">
-     <img src="images/give_on_car.gif" alt="Logo" height="500"> 
+     <img src="images/give_on_car.gif" alt="Logo" height="600"> 
 </p>
+<br><br>
 <h3 align="center">3. Rented car's details</h3>
  <p align="center">
-    <img src="images/owner_history.gif" alt="Logo" height="500"> 
+    <img src="images/owner_history.gif" alt="Logo" height="600"> 
  </p>
+ <br><br>
+ 
+## Some important things to note
+   - If you're trying to make changes or to contribute in this project, please make sure you have a brand new Firebase project and connect that with Google Cloud Platform to access maps features.
+   - Follow these [steps](https://github.com/Singh-Shivani/Food_Lab/blob/master/Updates.md) if you're new to Firebase.
+   - GCP gives you $200 free on your first project, you just have to link your project with a billing account. Please follow official docs for more details.
+   - In GCP under API & SERVICES make sure you have enabled these 3 APIs along with API FOR Android/iOS.
+   - Test if your API key if working perfectly else restricts the keys with a particular API service.
+   - !!THE MOST IMPORATNT POINT!!
+   -  Make sure your project is under Google Maps Platform services otherwise you can't have access to these APIs even if you have enabled it successfully. It will not grant permission to use the API and you'll get errors afterwards.
+   -  If you have your project under GMP service(either you can use GCP or GMP for a project) your firebase project won't work here, so here is the solution we followed:
+   -  We made a firebase project named as 'hopOnFirebase', we connected that with GCP(because firebase project only connects to GCP) and flutter app.
+   -  We made another project "mapsProject" which follows GMP because it is a GMP project, now you can enable and use these 3 APIs. 
+   -  Generate your API key(restrict them to these 3 API services only).
+   -  Your flutter app is connected to Firebase project "hopOnFirebase". Now you can use this API key(Key of "mapsProject" ) into you flutter app(connected with "hopOnFirebase")
+   -  That's all!
 
+## Keep Going!!!

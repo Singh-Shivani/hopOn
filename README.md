@@ -13,7 +13,7 @@
 </p>
 <br><br>
 
-## About the App
+## About the App 🚘
   - hopOn is flutter based application for car sharing and rental services.
   - The two main functions that app includes are -
     1. Rent a nearby car 
@@ -22,13 +22,18 @@
     1. Geocoding API (provides geocoding and reverse geocoding of addresses)
     2. Places API (returns information about places using HTTP requests)
     3. Directions API (returns JSON or XML-formatted directions between locations)
-  - Using Firebase authentication and functions every signedIn user gets an unique ID(uid) by which app fetches the respective details when a user is logged in.
+   
   - If user wants to rent a car he/she has to search for a dropOff location, after selecting a location(from suggestions) user gets the cost of ride with options to select pickup and dropOff dates.
   - After this information user gets a list of cars which are available in his/her nearby area. On the selection of any of the cars it shows all the information about car- owner's name, car's rent etc. After this you can pay and your ride will be booked.
   - For payments app uses [ Razorpay Demo platform ](https://pub.dev/packages/razorpay_flutter)(package in flutter)
   - Once the payment is done, it saves the data in Firebase Realtime Database. Along with saving ride history on user's end who has booked this ride, information about the rented car also gets saved on the owner side where he can see who has rented his/her car with some information about the ride. A User can cancel a ride anytime.
   - You can give your car on rent by just providing some information about the car your're registering like image, model name etc. It gets save in Firebase Firestore. After registerting your car you have an option to give your car on rent or to remove it from rent anytime you want.
 
-## Wireframe
+## Wireframe✒️ 
    - https://www.figma.com/file/3ALznWfTL7k7nPWyPuMfKT/Vehicle-Sharing-App?node-id=18%3A3
+
+## Scrrens📱
+
+
+## In action👀
 

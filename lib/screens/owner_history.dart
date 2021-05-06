@@ -124,7 +124,7 @@ class _OwnerHistoryState extends State<OwnerHistory> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 300,
                         ),
                       ],
                     );

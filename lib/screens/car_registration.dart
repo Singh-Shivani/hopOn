@@ -125,7 +125,7 @@ class _VehicleDetailsState extends State<VehicleDetails> {
                             ),
                           ),
                     SizedBox(
-                      height: 40,
+                      height: 0,
                     ),
                     InputFormField(
                       fieldName: 'Model Name',

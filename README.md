@@ -67,5 +67,5 @@
 
 ## Keep Going!!!
    - Feel free to ask your doubts and contribute to this project.
-   - Star the repo if you like the work!🙌
+   - Do ⭐ the repo if you like the work!🙌
 
